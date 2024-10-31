@@ -1,0 +1,12 @@
+// .sequelizerc
+
+import * as path from 'path';
+
+const config = {
+  config: path.resolve('src', 'database', 'db.config.json'),
+  'models-path': path.resolve('src', 'api', 'v1', 'models'),
+  'seeders-path': path.resolve('src', 'database', 'seeders'),
+  'migrations-path': path.resolve('src', 'database', 'migrations'),
+};
+
+export default config;
