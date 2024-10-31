@@ -1,0 +1,37 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "open1234",
+      "database": "rentify_dev",
+      "host": "localhost",
+      "type": "postgres",
+      "port": "5432",
+      "migrations": ["src/migrations/**/*{.ts,.js}"],
+      "migrationsTableName": "migrations",
+      "seederStorageTableName": "sequelize_seeders",
+      "cli": {
+      "migrationsDir": "src/database/migrations"
+        }
+    },
+    "test": {
+      "username": "postgres",
+      "password": "open1234",
+      "database": "rentify_test",
+      "host": "localhost",
+      "type": "postgres",
+      "port": "5432",
+      "migrations": ["src/migrations/**/*{.ts,.js}"],
+      "migrationsTableName": "migrations",
+      "seederStorageTableName": "sequelize_seeders"
+    },
+    "production": {
+      "username": "postgres",
+      "password": "open1234",
+      "database": "rentify_prod",
+      "host": "postgres-db",
+      "type": "postgres",
+      "port": "5432",
+      "migrations": ["src/migrations/**/*{.ts,.js}"],
+      "migrationsTableName": "migrations"
+    }
+  }
