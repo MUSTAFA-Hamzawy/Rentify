@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  rentify-app:
+    image: mostafahamzawy/rentify
+    ports:
+      - "4000:3000"
+    container_name: rentify_container
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    restart: always
+  postgres-db:
+    image: postgres:16
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    container_name: rentify_db
+
+volumes:
+  pgdata:

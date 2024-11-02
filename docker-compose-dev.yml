@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  rentify-app:
+    build:
+      context: .
+      target: development
+    volumes:
+      - type: bind
+        source: ${PWD}/src
+        target: /app/src
+        read_only: true
+    env_file: .env
+    environment:
+      - NODE_ENV=development
+  postgres-db:
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d rentify_dev" ]
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    environment:
+      POSTGRES_DB: rentify_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: open1234
