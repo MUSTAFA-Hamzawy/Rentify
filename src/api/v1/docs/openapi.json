@@ -1,0 +1,4655 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Rentify",
+      "description": "```\nRentify API Documentation\n\n ```",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://v1"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "noauthAuth": {
+          "type": "http",
+          "scheme": "noauth"
+        },
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "tags": [
+      {
+        "name": "User",
+        "description": "```\nAuthentication and user management\n\n ```"
+      },
+      {
+        "name": "Brand",
+        "description": "The Brands module in this application represents various car manufacturers or brands that are part of the system. This module is essential for managing all information related to car brands, including adding new brands, retrieving a list of available brands, updating details of existing brands, and deleting brands that are no longer relevant."
+      }
+    ],
+    "paths": {
+      "/users/register": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "register",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "full_name": "Mustafa Mahmoud",
+                    "email": "hamzawy2019579@gmail.com",
+                    "preferred_currency": "USD",
+                    "password": "Open@@1234",
+                    "confirm_password": "Open@@1234",
+                    "phone_number": "201111111111"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "noauthAuth": []
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "161"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"a1-nl29ckrHNwsSqw8KsyuylUKERsM\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:24:02 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 201,
+                    "message": "User registered successfully. Please check your email to activate your account.",
+                    "data": {
+                      "verification_path": "/v1/users/verifyOTP"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "119"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"77-xRQkq8oedEybbAoXHXEvSo06neM\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Wed, 30 Oct 2024 18:31:42 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": [
+                      "Full name is mandatory.",
+                      "Phone number can only contain numbers."
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            },
+            "409": {
+              "description": "Conflict",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "85"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"55-B8U14sXoAMnNDFe1hqTpiUNB3EU\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Wed, 30 Oct 2024 18:30:53 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "User with this email already exists",
+                    "error": "Conflict",
+                    "statusCode": 409
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/requestOTP": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "requestOTP",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "email": "hamzawy2019579@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Created",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "118"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"76-5sTyodGs8sbs5K/4Lnwbw2nbwfE\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:41:07 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 201,
+                    "message": "Please check your email to activate your account.",
+                    "data": {
+                      "path": "/v1/users/verifyOTP"
+                    }
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Unprocessable Entity",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "260"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"104-RliWEzbn7Gx69nlBwuX1NNlhNFw\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Sat, 12 Oct 2024 12:38:18 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "User not found",
+                    "status": 422
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/verifyOTP": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "verifyOTP",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "email": "hamzawy2019579@gmail.com",
+                    "otp": "706977"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Created",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "69"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"45-uaWo9NxxThBzlwDZEcQFlhFwmNA\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:41:28 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 201,
+                    "message": "User Activated successfully.",
+                    "data": {}
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "70"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"46-scAmr4fqh3nfHoRtGCVg9gkDooQ\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:40:13 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Invalid OTP code",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "login",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "email": "hamzawy2019579@gmail.com",
+                    "password": "Open@@1234"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "noauthAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Set-Cookie": {
+                  "schema": {
+                    "type": "string",
+                    "example": "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbXphd3kyMDE5NTc5QGdtYWlsLmNvbSIsInVzZXJfaWQiOiI1MyIsImlhdCI6MTczMDM3NDg5OCwiZXhwIjoxNzMwOTc5Njk4fQ.xFd40Z7EQDJHMU4qKEGB9WcVA71VsRxwG1T1Y4CxAhk; Max-Age=604800; Path=/; Expires=Thu, 07 Nov 2024 11:41:38 GMT; HttpOnly"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "529"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"211-7/7rVaizQYl7Azoji6EhD6RubY8\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 11:41:38 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 200,
+                    "message": "User logged in successfully.",
+                    "data": {
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbXphd3kyMDE5NTc5QGdtYWlsLmNvbSIsInVzZXJfaWQiOiI1MyIsImlhdCI6MTczMDM3NDg5OCwiZXhwIjoxNzMwNTQ3Njk4fQ.cuZian_ddG7tV3ePO5urMGCkPQ1ue11InkhXTT-Ev78",
+                      "accountStatus": "account is active",
+                      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbXphd3kyMDE5NTc5QGdtYWlsLmNvbSIsInVzZXJfaWQiOiI1MyIsImlhdCI6MTczMDM3NDg5OCwiZXhwIjoxNzMwOTc5Njk4fQ.xFd40Z7EQDJHMU4qKEGB9WcVA71VsRxwG1T1Y4CxAhk"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "77"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"4d-4XjGQe2uZ3yNx1aisSAuYly0zMs\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:44:43 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Invalid email or password.",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/profile": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "summary": "profile",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "310"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"136-qcKnSQb+5yN38voaJwqHT5nf2Xc\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:48:51 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 200,
+                    "message": "User profile retrieved successfully.",
+                    "data": {
+                      "user_id": "53",
+                      "image": null,
+                      "email": "hamzawy2019579@gmail.com",
+                      "full_name": "Mustafa Mahmoud",
+                      "verification_status": true,
+                      "phone_number": "201111111111",
+                      "account_disabled": false,
+                      "created_at": "25 minutes ago",
+                      "updated_at": "7 minutes ago"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "85"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"55-1zIuNN2NGdfc7yO2zW7Rta2RUg8\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:48:27 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "This user is not authenticated.",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "User"
+          ],
+          "summary": "updateProfile",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "full_name": "   Hamzawy HHH     ",
+                    "preferred_currency": "EGP",
+                    "phone_number": "201122322222"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "313"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"139-CG2tmeihHVtQEqZNvcu9WoK+cO4\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:50:41 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 200,
+                    "message": "User profile updated successfully.",
+                    "data": {
+                      "user_id": "53",
+                      "image": null,
+                      "email": "hamzawy2019579@gmail.com",
+                      "full_name": "Hamzawy HHH",
+                      "verification_status": true,
+                      "phone_number": "201122322222",
+                      "account_disabled": false,
+                      "created_at": "27 minutes ago",
+                      "updated_at": "less than a minute ago"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "141"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"8d-L8QD9wgNZfeX2lcNM3Jx5BwpLsY\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:50:13 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": [
+                      "Preferred currency must be either USD or EGP.",
+                      "Phone number can only contain numbers."
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/account_disable": {
+        "patch": {
+          "tags": [
+            "User"
+          ],
+          "summary": "disableAccount",
+          "requestBody": {
+            "content": {}
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "66"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"42-AUF8p3nILC0gEab/FItprHqawm4\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Sat, 12 Oct 2024 17:19:44 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Account disabled successfully",
+                    "status": 200,
+                    "data": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/account_enable": {
+        "patch": {
+          "tags": [
+            "User"
+          ],
+          "summary": "enableAccount",
+          "requestBody": {
+            "content": {}
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "65"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"41-Uu1jjBk35NHM88lZZoZeIQbNw9Y\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Sat, 12 Oct 2024 17:19:55 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Account enabled successfully",
+                    "status": 200,
+                    "data": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/refreshToken": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "refreshToken",
+          "requestBody": {
+            "content": {}
+          },
+          "responses": {
+            "201": {
+              "description": "Created",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "284"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"11c-x6NHMt7RTOqfCuvska6m75iTS6A\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:49:26 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 201,
+                    "message": "Token refreshed successfully.",
+                    "data": {
+                      "newToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRldi5tdXN0YWZhLm1haG1vdWRAZ21haWwuY29tIiwidXNlcl9pZCI6IjE5IiwiaWF0IjoxNzMwMzcxNzY2LCJleHAiOjE3MzA1NDQ1NjZ9.rB50OpuM7qCJQRvLk07Bf8KwBBVNZCGmwA7SdAXqwso"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/password": {
+        "patch": {
+          "tags": [
+            "User"
+          ],
+          "summary": "changePassword",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "old_password": "Open@@12",
+                    "new_password": "Open@@12345"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "71"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"47-n8mKEuTiI+hq4Wom6X2Dy2oQv84\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:52:24 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Password changed successfully.",
+                    "data": {}
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "84"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"54-Ux6xr9JgQGuZw3tCs6iF+MxlMVQ\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 10:52:33 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": [
+                      "Old Password cannot be empty."
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            },
+            "409": {
+              "description": "Conflict",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "70"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"46-ebbazk9gyxrY/a/n32PnAWhFQHA\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 11:44:00 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Invalid old password",
+                    "error": "Conflict",
+                    "statusCode": 409
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/profileImage": {
+        "patch": {
+          "tags": [
+            "User"
+          ],
+          "summary": "updateProfileImage",
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "image": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "175"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"af-2gpSKN08iIPtnWNCX992wMjO2eY\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 11:47:29 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Profile image updated successfully.",
+                    "data": {
+                      "newImage": "localhost:3000/uploads/1730375249555-484649923-Screenshot from 2024-10-12 20-31-19.png"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "X-RateLimit-Limit": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "3"
+                  }
+                },
+                "X-RateLimit-Remaining": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "2"
+                  }
+                },
+                "X-RateLimit-Reset": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "70"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"46-rjEAlvKU7E8KYtAQsGGih43G3cs\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Thu, 31 Oct 2024 11:45:34 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "No image uploaded",
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/logout": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "logout",
+          "requestBody": {
+            "content": {}
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "65"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"41-ac1qTX0zNDvmsYeYDSXOHtgAv9g\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Sat, 12 Oct 2024 17:36:42 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "User logged out successfully",
+                    "status": 200,
+                    "data": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/brands": {
+        "post": {
+          "tags": [
+            "Brand"
+          ],
+          "summary": "add brand",
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "brand_name": {
+                      "type": "string",
+                      "example": "Kia"
+                    },
+                    "brand_logo": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "67"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"43-klqwJIS//leMgxAj5z8a414l69E\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Mon, 14 Oct 2024 17:43:45 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Brand is created successfully.",
+                    "status": 200,
+                    "data": {}
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Unprocessable Entity",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "303"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"12f-6Q8ZHQ0WR7xw476tLsfTmB53zH4\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Mon, 14 Oct 2024 17:44:05 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "examples": {
+                    "example-0": {
+                      "summary": "Validation Error",
+                      "value": {
+                        "message": "Brand with that name already exists",
+                        "status": 422
+                      }
+                    },
+                    "example-1": {
+                      "summary": "Validation Error 2",
+                      "value": {
+                        "message": "Invalid image type. Only JPEG and PNG are allowed.",
+                        "status": 422
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Brand"
+          ],
+          "summary": "get all brands",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": {
+                "type": "integer"
+              },
+              "example": "3"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "schema": {
+                "type": "integer"
+              },
+              "example": "5"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"743-fOtRaqEE/9lhrgej+7cS21ToeoU\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Content-Encoding": {
+                  "schema": {
+                    "type": "string",
+                    "example": "gzip"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Mon, 14 Oct 2024 18:40:48 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                },
+                "Transfer-Encoding": {
+                  "schema": {
+                    "type": "string",
+                    "example": "chunked"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Brands retrieved successfully",
+                    "status": 200,
+                    "data": {
+                      "0": {
+                        "brand_id": 1,
+                        "brand_name": "Awesome Concrete Chair",
+                        "brand_logo": "https://loremflickr.com/640/480?lock=4092028770058240",
+                        "created_at": "2024-10-06T08:26:58.208Z",
+                        "updated_at": null
+                      },
+                      "1": {
+                        "brand_id": 2,
+                        "brand_name": "Bespoke Rubber Soap",
+                        "brand_logo": "https://loremflickr.com/640/480?lock=4231445824405504",
+                        "created_at": "2024-10-06T15:16:43.155Z",
+                        "updated_at": null
+                      },
+                      "2": {
+                        "brand_id": 3,
+                        "brand_name": "Awesome Soft Tuna",
+                        "brand_logo": "https://picsum.photos/seed/7HTx9FqVa/640/480",
+                        "created_at": "2024-10-06T16:38:28.587Z",
+                        "updated_at": null
+                      },
+                      "3": {
+                        "brand_id": 4,
+                        "brand_name": "Oriental Fresh Shirt",
+                        "brand_logo": "https://loremflickr.com/640/480?lock=1570279495041024",
+                        "created_at": "2024-10-05T19:14:07.003Z",
+                        "updated_at": null
+                      },
+                      "4": {
+                        "brand_id": 5,
+                        "brand_name": "Incredible Concrete Tuna",
+                        "brand_logo": "https://picsum.photos/seed/6BgyTIB/640/480",
+                        "created_at": "2024-10-06T04:37:16.300Z",
+                        "updated_at": null
+                      },
+                      "5": {
+                        "brand_id": 6,
+                        "brand_name": "Generic Rubber Towels",
+                        "brand_logo": "https://picsum.photos/seed/avE4TP/640/480",
+                        "created_at": "2024-10-05T23:11:10.150Z",
+                        "updated_at": null
+                      },
+                      "6": {
+                        "brand_id": 7,
+                        "brand_name": "Sleek Frozen Soap",
+                        "brand_logo": "https://loremflickr.com/640/480?lock=2515383500144640",
+                        "created_at": "2024-10-06T13:52:01.690Z",
+                        "updated_at": null
+                      },
+                      "7": {
+                        "brand_id": 8,
+                        "brand_name": "Ergonomic Soft Car",
+                        "brand_logo": "https://loremflickr.com/640/480?lock=5972857926451200",
+                        "created_at": "2024-10-06T11:16:37.170Z",
+                        "updated_at": null
+                      },
+                      "8": {
+                        "brand_id": 9,
+                        "brand_name": "Rustic Cotton Shoes",
+                        "brand_logo": "https://picsum.photos/seed/x6LKZ/640/480",
+                        "created_at": "2024-10-06T01:38:52.270Z",
+                        "updated_at": null
+                      },
+                      "9": {
+                        "brand_id": 10,
+                        "brand_name": "Sleek Steel Cheese",
+                        "brand_logo": "https://picsum.photos/seed/MqtmA/640/480",
+                        "created_at": "2024-10-05T17:14:49.696Z",
+                        "updated_at": null
+                      },
+                      "created_at": null,
+                      "updated_at": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/brands/13": {
+        "get": {
+          "tags": [
+            "Brand"
+          ],
+          "summary": "get brand",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "70"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"46-8lcZMdi5k0oUuHXWqCZPf+3M5ZM\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Mon, 14 Oct 2024 18:26:15 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "examples": {
+                    "example-0": {
+                      "summary": "Brand not exist",
+                      "value": {
+                        "message": "Brand data retrieved successfully",
+                        "status": 200,
+                        "data": {}
+                      }
+                    },
+                    "example-1": {
+                      "summary": "Success",
+                      "value": {
+                        "message": "Brand data retrieved successfully",
+                        "status": 200,
+                        "data": {
+                          "brand_id": 13,
+                          "brand_name": "kiA",
+                          "brand_logo": "undefined:3000/uploads/1728928075796-783345399-Screenshot from 2024-10-12 20-31-19.png",
+                          "created_at": "42 minutes ago",
+                          "updated_at": "42 minutes ago"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Unprocessable Entity",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "281"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"119-SdyHVt//guqBDKxSpOP7et2uBsk\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Mon, 14 Oct 2024 18:09:24 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "examples": {
+                    "example-0": {
+                      "summary": "Wrong brand id",
+                      "value": {
+                        "message": "brand_id must be a number",
+                        "status": 422
+                      }
+                    },
+                    "example-1": {
+                      "summary": "Brand Not Exist",
+                      "value": {
+                        "message": "Brand not exist",
+                        "status": 422
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Brand"
+          ],
+          "summary": "remove brand",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "63"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"3f-H067ROBbgyAPSy/8hmSlER5VSwg\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Mon, 14 Oct 2024 19:12:21 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Brand Removed successfully",
+                    "status": 200,
+                    "data": {}
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Unprocessable Entity",
+              "headers": {
+                "Content-Security-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                  }
+                },
+                "Cross-Origin-Opener-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Cross-Origin-Resource-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "same-origin"
+                  }
+                },
+                "Origin-Agent-Cluster": {
+                  "schema": {
+                    "type": "string",
+                    "example": "?1"
+                  }
+                },
+                "Referrer-Policy": {
+                  "schema": {
+                    "type": "string",
+                    "example": "no-referrer"
+                  }
+                },
+                "Strict-Transport-Security": {
+                  "schema": {
+                    "type": "string",
+                    "example": "max-age=15552000; includeSubDomains"
+                  }
+                },
+                "X-Content-Type-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "nosniff"
+                  }
+                },
+                "X-DNS-Prefetch-Control": {
+                  "schema": {
+                    "type": "string",
+                    "example": "off"
+                  }
+                },
+                "X-Download-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "noopen"
+                  }
+                },
+                "X-Frame-Options": {
+                  "schema": {
+                    "type": "string",
+                    "example": "SAMEORIGIN"
+                  }
+                },
+                "X-Permitted-Cross-Domain-Policies": {
+                  "schema": {
+                    "type": "string",
+                    "example": "none"
+                  }
+                },
+                "X-XSS-Protection": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "0"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "264"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"108-S60+sAnq8RhWqGl4l9cDLE85kHg\""
+                  }
+                },
+                "Vary": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Accept-Encoding"
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Mon, 14 Oct 2024 19:11:53 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "message": "Brand not exist",
+                    "status": 422
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/brands/id": {
+        "put": {
+          "tags": [
+            "Brand"
+          ],
+          "summary": "update brand",
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "brand_name": {
+                      "type": "string"
+                    },
+                    "brand_logo": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
