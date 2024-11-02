@@ -7,9 +7,9 @@ import * as swaggerUi from 'swagger-ui-express';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { LoggerService } from 'common/modules/logger/logger.service';
+import { LoggerService } from './common/modules/logger/logger.service';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { API_PATH } from 'config/app.config';
+import { API_PATH } from './config/app.config';
 
 const PORT = process.env.PORT ?? 3000;
 
@@ -28,7 +28,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   app.use(helmet());
   app.use(compression());
-  // app.useStaticAssets(join(ROOT_PATH, 'uploads'));
+  app.useStaticAssets(path.join(__dirname, '..', 'uploads'), {prefix: '/uploads/'});
   app.use(
     '/api/v1/api-docs',
     swaggerUi.serve,

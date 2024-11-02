@@ -24,9 +24,6 @@ import { User } from './api/v1/users/entities/user.entity';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
