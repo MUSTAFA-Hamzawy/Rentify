@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { promises as fsPromises } from 'fs';
 import * as path from 'path';
 
-import { ROOT_PATH } from 'config/app.config';
+import { ROOT_PATH } from '../../../config/app.config';
 
 /**
  * LoggerService extends ConsoleLogger to provide additional logging functionality.
@@ -13,7 +13,7 @@ import { ROOT_PATH } from 'config/app.config';
 export class LoggerService extends ConsoleLogger {
   /**
    * Logs an entry to a file asynchronously.
-   * 
+   *
    * @param entry The entry to be logged.
    */
   async logToFile(entry: string): Promise<void> {
@@ -38,7 +38,7 @@ export class LoggerService extends ConsoleLogger {
 
   /**
    * Logs a message to the file and console if in development mode.
-   * 
+   *
    * @param message The message to be logged.
    * @param context Optional context for the message.
    */
@@ -50,13 +50,14 @@ export class LoggerService extends ConsoleLogger {
 
   /**
    * Logs an error message to the file and console if in development mode.
-   * 
+   *
    * @param message The error message to be logged.
    * @param stackOrContext Optional stack trace or context for the error.
    */
   error(message: string, stackOrContext?: string): void {
     const entry: string = `${stackOrContext}\t${message}`;
     this.logToFile(entry);
-    if (process.env.NODE_ENV === 'development') super.error(message, stackOrContext);
+    if (process.env.NODE_ENV === 'development')
+      super.error(message, stackOrContext);
   }
 }

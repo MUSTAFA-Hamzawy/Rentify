@@ -31,11 +31,9 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     };
 
     console.log(exception);
-    if(exception instanceof UnauthorizedException) {
-      console.log('yesssssssssssssssss');
-      
+    if (exception instanceof UnauthorizedException) {
     }
-    
+
     switch (true) {
       case exception instanceof HttpException:
         responseObj = {

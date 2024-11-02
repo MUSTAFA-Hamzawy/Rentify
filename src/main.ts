@@ -1,21 +1,25 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { AuthGuard } from 'api/v1/guards/auth.guard';
 import helmet from 'helmet';
+import * as compression from 'compression';
+import * as swaggerUi from 'swagger-ui-express';
+import * as fs from 'fs';
+import * as path from 'path';
+
 import { LoggerService } from 'common/modules/logger/logger.service';
-import { AllExceptionsFilter } from 'all-exceptions.filter';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { ROOT_PATH } from 'config/app.config';
-import { join } from 'path';
-import { ResponseInterceptor } from 'common/interceptors/response.interceptor';
-import { TransformTimestampInterceptor } from 'common/interceptors/transform-timestamp.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { API_PATH } from 'config/app.config';
 
 const PORT = process.env.PORT ?? 3000;
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: false });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    bufferLogs: false,
+  });
+  const swaggerDocument = JSON.parse(
+    fs.readFileSync(path.join(API_PATH, 'docs', 'openapi.json'), 'utf8'),
+  );
 
   // app.useGlobalFilters(new AllExceptionsFilter());
   app.useLogger(app.get(LoggerService));
@@ -23,7 +27,14 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
   app.setGlobalPrefix('api/v1');
   app.use(helmet());
+  app.use(compression());
   // app.useStaticAssets(join(ROOT_PATH, 'uploads'));
+  app.use(
+    '/api/v1/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument),
+  );
+
   await app.listen(PORT);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }

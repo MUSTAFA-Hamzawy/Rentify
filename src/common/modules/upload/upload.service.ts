@@ -3,8 +3,8 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import {Multer} from 'multer';
-import { ALLOWED_IMAGE_TYPES } from 'config/app.config';
+import { Multer } from 'multer';
+import { ALLOWED_IMAGE_TYPES } from '../../../config/app.config';
 import { promises as fs } from 'fs';
 import * as fileTypeChecker from 'file-type-checker';
 
@@ -19,7 +19,7 @@ export class UploadService {
 
   /**
    * Validates the type of an uploaded image file.
-   * 
+   *
    * @param file The file to be validated.
    * @throws BadRequestException if no file is uploaded or if the file type is not allowed.
    * @throws InternalServerErrorException if an internal server error occurs.
@@ -42,7 +42,8 @@ export class UploadService {
     } catch (e) {
       this.logger.error(e.message, `validateImage, ${UploadService.name}`);
 
-      if(e instanceof BadRequestException) throw new BadRequestException(e.message);
+      if (e instanceof BadRequestException)
+        throw new BadRequestException(e.message);
       throw new InternalServerErrorException(e);
     }
   }

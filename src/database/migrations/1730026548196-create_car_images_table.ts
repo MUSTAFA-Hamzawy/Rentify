@@ -62,7 +62,7 @@ export class CreateCarImagesTable1730026511800 implements MigrationInterface {
     // Drop foreign key first
     const table = await queryRunner.getTable('car_images');
     const foreignKey = table.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('car_id') !== -1,
+      fk => fk.columnNames.indexOf('car_id') !== -1,
     );
     await queryRunner.dropForeignKey('car_images', foreignKey);
 

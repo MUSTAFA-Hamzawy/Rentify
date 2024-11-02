@@ -73,7 +73,7 @@ export class CreateDiscountsTable1730026511803 implements MigrationInterface {
     // Drop foreign key first
     const table = await queryRunner.getTable('discounts');
     const foreignKey = table.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('car_id') !== -1,
+      fk => fk.columnNames.indexOf('car_id') !== -1,
     );
     await queryRunner.dropForeignKey('discounts', foreignKey);
 

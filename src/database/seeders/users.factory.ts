@@ -7,11 +7,11 @@ export const UserFactory = setSeederFactory(User, (faker: Faker) => {
     full_name: faker.internet.displayName(),
     image: faker.image.avatar(),
     email: faker.internet.email(),
-    preferred_currency: faker.finance.currencyCode(),
+    preferred_currency: 'USD',
     password: faker.internet.password(),
     is_admin: false,
     is_blocked: false,
     verification_status: true,
-    created_at: new Date()
+    created_at: new Date(),
   };
 });

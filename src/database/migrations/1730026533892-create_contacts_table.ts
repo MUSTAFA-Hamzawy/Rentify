@@ -73,7 +73,7 @@ export class CreateContactsTable1730026511798 implements MigrationInterface {
     // Drop foreign key first
     const table = await queryRunner.getTable('contacts');
     const foreignKey = table.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('user_id') !== -1,
+      fk => fk.columnNames.indexOf('user_id') !== -1,
     );
     await queryRunner.dropForeignKey('contacts', foreignKey);
 

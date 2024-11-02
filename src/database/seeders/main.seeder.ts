@@ -7,7 +7,6 @@ import { User } from '../../api/v1/users/entities/user.entity';
 export class MainSeeder implements Seeder {
   private readonly USERS_COUNT: number = 100;
 
-
   public async run(
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,

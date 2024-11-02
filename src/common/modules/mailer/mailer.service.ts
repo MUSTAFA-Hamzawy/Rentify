@@ -30,7 +30,7 @@ export class MailerService {
 
   /**
    * Sends an email based on the provided EmailInfo.
-   * 
+   *
    * @param emailInfo - The information about the email to be sent.
    */
   async sendMail(emailInfo: EmailInfo): Promise<void> {
@@ -50,7 +50,7 @@ export class MailerService {
 
   /**
    * Sends an activation email with an OTP code.
-   * 
+   *
    * @param email - The recipient's email address.
    * @param otpCode - The OTP code to be sent.
    */

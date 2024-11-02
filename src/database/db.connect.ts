@@ -1,7 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as path from 'path';
 
-import {dataSourceOptions} from './data-source';
+import { dataSourceOptions } from './data-source';
 
 // Connect to db
 const AppDataSource = new DataSource(dataSourceOptions);
