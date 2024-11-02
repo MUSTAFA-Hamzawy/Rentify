@@ -8,7 +8,7 @@ import {
   IsNotEmpty,
 } from 'class-validator';
 import { PasswordMatch } from '../decorators/password-match.decorator';
-import { TrimString } from 'common/decorators/trim-string.decorator';
+import { TrimString } from '../../../../common/decorators/trim-string.decorator';
 
 export class CreateUserDto {
   @MaxLength(200)
@@ -40,7 +40,6 @@ export class CreateUserDto {
   @IsString()
   confirm_password: string;
 
-  
   @IsOptional()
   @IsEnum(['USD', 'EGP'], {
     message: 'Preferred currency must be either USD or EGP.',

@@ -1,10 +1,5 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BeforeUpdate
-} from 'typeorm';
-import { Factory } from "nestjs-seeder";
+import { Entity, PrimaryGeneratedColumn, Column, BeforeUpdate } from 'typeorm';
+import { Factory } from 'nestjs-seeder';
 
 @Entity('users')
 export class User {
@@ -29,12 +24,11 @@ export class User {
   @Column({ type: 'varchar' })
   password: string;
 
-  @Column({ type: 'varchar', length: 15, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   phone_number: string;
 
-  @Column({ type: 'varchar', length: 15, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   otp_secret_key: string;
-
 
   @Column({ type: 'boolean', default: false })
   is_admin: boolean;

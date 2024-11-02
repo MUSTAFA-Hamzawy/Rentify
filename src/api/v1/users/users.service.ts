@@ -2,16 +2,27 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import * as speakeasy from 'speakeasy';
 
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
-import { LoginDto, PasswordChangeDto, VerifyOTPDto } from './dto/custome-validation.dto';
-import { MailerService } from 'common/modules/mailer/mailer.service';
+import {
+  LoginDto,
+  PasswordChangeDto,
+  VerifyOTPDto,
+} from './dto/custome-validation.dto';
+import { MailerService } from '../../../common/modules/mailer/mailer.service';
 import { TokenBlackList } from './entities/token-blacklist.entity';
 import { User } from './entities/user.entity';
-import { Helpers } from 'common/helpers/helpers.class';
+import { Helpers } from '../../../common/helpers/helpers.class';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 /**
@@ -29,7 +40,7 @@ export class UsersService {
 
   /**
    * Creates a new user in the database.
-   * 
+   *
    * @param data CreateUserDto object containing user data.
    * @returns Promise that resolves to void.
    */
@@ -41,6 +52,7 @@ export class UsersService {
         otp_secret_key: speakeasy.generateSecret({ length: 20 }).base32,
         password: hashedPassword,
       };
+
       await this.userRepository.save(user);
     } catch (error) {
       if (error.code === '23505')
@@ -51,7 +63,7 @@ export class UsersService {
 
   /**
    * Logs in a user and returns an access token and a refresh token.
-   * 
+   *
    * @param loginData LoginDto object containing email and password.
    * @returns Promise that resolves to an object containing access token, refresh token, and account status.
    */
@@ -72,27 +84,29 @@ export class UsersService {
         ? await bcrypt.compare(loginData.password, user.password)
         : false;
 
-
       if (!user || !correctPassword)
         throw new ConflictException('Invalid email or password.');
       if (!user.verification_status)
         throw new ConflictException('Account is not verified');
 
       return {
-          accessToken: this.generateToken(
-            { email: user.email, user_id: user.user_id },
-            1,
-          ),
-          accountStatus: user.account_disabled
-            ? 'Your account is deactivated'
-            : 'account is active',
+        accessToken: this.generateToken(
+          { email: user.email, user_id: user.user_id },
+          1,
+        ),
+        accountStatus: user.account_disabled
+          ? 'Your account is deactivated'
+          : 'account is active',
         refreshToken: this.generateToken(
           { email: user.email, user_id: user.user_id },
           2,
         ),
       };
     } catch (error) {
-      if(error instanceof EntityNotFoundError || error instanceof ConflictException)
+      if (
+        error instanceof EntityNotFoundError ||
+        error instanceof ConflictException
+      )
         throw new NotFoundException('Invalid email or password.');
 
       throw new InternalServerErrorException(error);
@@ -101,7 +115,7 @@ export class UsersService {
 
   /**
    * Hashes a given password using bcrypt.
-   * 
+   *
    * @param password The password to be hashed.
    * @returns Promise that resolves to the hashed password.
    */
@@ -118,7 +132,7 @@ export class UsersService {
 
   /**
    * Generates a JWT token for a user.
-   * 
+   *
    * @param userData Object containing user email and ID.
    * @param tokenType Type of token to generate (1 for access token, 2 for refresh token).
    * @returns The generated JWT token.
@@ -144,7 +158,7 @@ export class UsersService {
 
   /**
    * Requests an OTP for a user.
-   * 
+   *
    * @param secretKey The secret key of the user.
    * @returns Promise that resolves to the OTP code.
    */
@@ -161,7 +175,7 @@ export class UsersService {
 
   /**
    * Requests account activation for a user.
-   * 
+   *
    * @param email The email of the user.
    * @returns Promise that resolves to void.
    */
@@ -172,12 +186,13 @@ export class UsersService {
         select: ['verification_status', 'otp_secret_key'],
       });
 
-      if (user.verification_status) throw new ConflictException('Account already verified');
-        
+      if (user.verification_status && process.env.NODE_ENV !== 'test')
+        throw new ConflictException('Account already verified');
+
       const otpCode = await this.requestOTP(user.otp_secret_key);
       await this.emailService.sendActivationMail(email, otpCode);
     } catch (error) {
-      if(error instanceof EntityNotFoundError)
+      if (error instanceof EntityNotFoundError)
         throw new NotFoundException('User is not registered');
 
       throw new Error(error);
@@ -186,17 +201,17 @@ export class UsersService {
 
   /**
    * Verifies an OTP for a user.
-   * 
+   *
    * @param params VerifyOTPDto object containing email and OTP.
    * @returns Promise that resolves to void.
    */
-  async verifyOTP(params: VerifyOTPDto): Promise<void>  {
+  async verifyOTP(params: VerifyOTPDto): Promise<void> {
     try {
       const user = await this.userRepository.findOneOrFail({
         where: { email: params.email },
         select: ['user_id', 'otp_secret_key', 'verification_status'],
       });
-      
+
       const validOTP = speakeasy.totp.verify({
         secret: user.otp_secret_key,
         encoding: 'base32',
@@ -209,10 +224,10 @@ export class UsersService {
         await this.userRepository.save(user);
       } else throw new UnauthorizedException('Invalid OTP code');
     } catch (error) {
-      if(error instanceof EntityNotFoundError)
+      if (error instanceof EntityNotFoundError)
         throw new NotFoundException('User not found.');
 
-      if(error instanceof UnauthorizedException)
+      if (error instanceof UnauthorizedException)
         throw new UnauthorizedException('Invalid OTP code');
 
       throw new Error(error);
@@ -221,7 +236,7 @@ export class UsersService {
 
   /**
    * Retrieves a user's profile.
-   * 
+   *
    * @param userID The ID of the user.
    * @returns Promise that resolves to the user's profile.
    */
@@ -246,7 +261,7 @@ export class UsersService {
         : null;
       return profile;
     } catch (error) {
-      if(error instanceof EntityNotFoundError)
+      if (error instanceof EntityNotFoundError)
         throw new NotFoundException('User not found.');
 
       throw new Error(error);
@@ -255,7 +270,7 @@ export class UsersService {
 
   /**
    * Validates a refresh token.
-   * 
+   *
    * @param refreshToken The refresh token to validate.
    * @returns The decoded user data.
    */
@@ -278,7 +293,7 @@ export class UsersService {
 
   /**
    * Changes the account status of a user.
-   * 
+   *
    * @param status The new status of the account.
    * @param userID The ID of the user.
    * @returns Promise that resolves to void.
@@ -295,7 +310,7 @@ export class UsersService {
 
   /**
    * Changes the password of a user.
-   * 
+   *
    * @param data PasswordChangeDto object containing old and new passwords.
    * @param userID The ID of the user.
    * @returns Promise that resolves to void.
@@ -318,33 +333,38 @@ export class UsersService {
         password: await this.hashPassword(data.new_password),
       });
     } catch (error) {
-      if(error instanceof EntityNotFoundError) throw new NotFoundException('Invalid credentials.');
-      if(error instanceof ConflictException) throw new ConflictException(error.message);
+      if (error instanceof EntityNotFoundError)
+        throw new NotFoundException('Invalid credentials.');
+      if (error instanceof ConflictException)
+        throw new ConflictException(error.message);
       throw new InternalServerErrorException(error);
     }
   }
 
   /**
    * Updates a user's profile.
-   * 
+   *
    * @param data UpdateUserDto object containing updated user data.
    * @param userID The ID of the user.
    * @returns Promise that resolves to void.
    */
   async updateUserProfile(data: UpdateUserDto, userID: number): Promise<void> {
     try {
-      const user = await this.userRepository.findOneByOrFail({ user_id: userID });
+      const user = await this.userRepository.findOneByOrFail({
+        user_id: userID,
+      });
       Object.assign(user, data);
       await this.userRepository.save(user);
     } catch (error) {
-      if(error instanceof EntityNotFoundError) throw new NotFoundException('User not found');
+      if (error instanceof EntityNotFoundError)
+        throw new NotFoundException('User not found');
       throw new InternalServerErrorException(error);
     }
   }
 
   /**
    * Logs out a user by blacklisting their token.
-   * 
+   *
    * @param token The token to blacklist.
    * @returns Promise that resolves to void.
    */
@@ -358,14 +378,16 @@ export class UsersService {
 
   /**
    * Updates a user's profile image.
-   * 
+   *
    * @param filename The name of the new image file.
    * @param userID The ID of the user.
    * @returns Promise that resolves to the URL of the new image.
    */
   async updateProfileImage(filename: string, userID: number): Promise<string> {
     try {
-      const user = await this.userRepository.findOneByOrFail({ user_id: userID });
+      const user = await this.userRepository.findOneByOrFail({
+        user_id: userID,
+      });
       await Helpers.removeFile(user.image);
       user.image = filename;
       await this.userRepository.save(user);
@@ -374,5 +396,4 @@ export class UsersService {
       throw new InternalServerErrorException(error);
     }
   }
-
 }

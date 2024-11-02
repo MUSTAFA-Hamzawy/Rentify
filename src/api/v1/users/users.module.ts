@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { User } from './entities/user.entity';
-import { MailerModule } from 'common/modules/mailer/mailer.module';
+import { MailerModule } from '../../../common/modules/mailer/mailer.module';
 import { TokenBlackList } from './entities/token-blacklist.entity';
-import { UploadModule } from 'common/modules/upload/upload.module';
+import { UploadModule } from '../../../common/modules/upload/upload.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [

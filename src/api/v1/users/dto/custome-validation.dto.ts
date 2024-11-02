@@ -1,13 +1,8 @@
 import { PickType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
-import {
-  IsString,
-  Matches,
-  IsNotEmpty,
-  IsNumberString,
-} from 'class-validator';
+import { IsString, Matches, IsNotEmpty, IsNumberString } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { TrimString } from 'common/decorators/trim-string.decorator';
+import { TrimString } from '../../../../common/decorators/trim-string.decorator';
 
 export class LoginDto {
   @TrimString()
