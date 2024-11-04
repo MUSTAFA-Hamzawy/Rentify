@@ -41,6 +41,18 @@ export class Helpers {
     }
   }
 
+  /**
+   * Capitalizes the first character of a given string.
+   *
+   * @param {string} str - The input string to be modified.
+   * @returns {string} - A new string with the first character capitalized.
+   */
+  public static UCFirst(str: string): string {
+    if (!str) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+
   public static ResponseFormat(
     message: string = 'Request processed successfully',
     data = {},
