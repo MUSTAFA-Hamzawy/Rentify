@@ -15,12 +15,12 @@ import { LoggerModule } from './common/modules/logger/logger.module';
 import { LoggerService } from './common/modules/logger/logger.service';
 import { UploadService } from './common/modules/upload/upload.service';
 import { UploadModule } from './common/modules/upload/upload.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { TransformTimestampInterceptor } from './common/interceptors/transform-timestamp.interceptor';
 import { DbModule } from './database/db.module';
 import { User } from './api/v1/users/entities/user.entity';
+import { BrandsModule } from './api/v1/brands/brands.module';
+import { Brand } from './api/v1/brands/entities/brand.entity';
 
 @Module({
   imports: [
@@ -40,6 +40,7 @@ import { User } from './api/v1/users/entities/user.entity';
     LoggerModule,
     UploadModule,
     DbModule,
+    BrandsModule,
   ],
   controllers: [AppController],
   providers: [

@@ -7,6 +7,7 @@ import {
 import { Helpers } from '../../common/helpers/helpers.class';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { isArray } from 'class-validator';
 
 /**
  * This interceptor transforms timestamps in the response data to a human-readable format.
@@ -36,6 +37,11 @@ export class TransformTimestampInterceptor<T> implements NestInterceptor<T, T> {
    * @returns The transformed data or the original data if it's undefined.
    */
   private transformTimestamps(data) {
+    // if data is array
+    if (isArray(data)) {
+      data.map(item => {this.formatItem(item)});
+      return data;
+    }
     return data ? this.formatItem(data) : data;
   }
 

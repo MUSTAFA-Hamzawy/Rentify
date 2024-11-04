@@ -8,6 +8,8 @@ import { MainSeeder } from './seeders/main.seeder';
 import { UserFactory } from './seeders/users.factory';
 import { User } from '../api/v1/users/entities/user.entity';
 import { TokenBlackList } from '../api/v1/users/entities/token-blacklist.entity';
+import { Brand } from '../api/v1/brands/entities/brand.entity';
+import { BrandFactory } from './seeders/brands.factory';
 config();
 const dbConfigFile = join(SRC_PATH, 'database', 'db.config.json');
 
@@ -23,8 +25,8 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   password: dbConfig.password,
   database: dbConfig.database,
   migrations: ['dist/database/migrations/**/*.js'],
-  entities: [User, TokenBlackList],
-  factories: [UserFactory],
+  entities: [User, TokenBlackList, Brand],
+  factories: [UserFactory, BrandFactory],
   seeds: [MainSeeder],
 };
 
