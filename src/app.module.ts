@@ -21,6 +21,7 @@ import { DbModule } from './database/db.module';
 import { User } from './api/v1/users/entities/user.entity';
 import { BrandsModule } from './api/v1/brands/brands.module';
 import { Brand } from './api/v1/brands/entities/brand.entity';
+import { LocationsModule } from './api/v1/locations/locations.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { Brand } from './api/v1/brands/entities/brand.entity';
     UploadModule,
     DbModule,
     BrandsModule,
+    LocationsModule,
   ],
   controllers: [AppController],
   providers: [
