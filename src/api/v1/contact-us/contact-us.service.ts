@@ -6,17 +6,27 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 
+/**
+ * Service to handle operations related to contact messages from users.
+ */
 @Injectable()
 export class ContactUsService {
 
-  constructor(@InjectRepository(ContactUs) private readonly contactUsRepository: Repository<ContactUs>,
-              @InjectRepository(User) private readonly usersRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(ContactUs) private readonly contactUsRepository: Repository<ContactUs>,
+    @InjectRepository(User) private readonly usersRepository: Repository<User>
+  ) {}
 
-
-  async create(user_id:number, createContactUsDto: CreateContactUsDto): Promise<void> {
+  /**
+   * Creates a new contact message from a user.
+   * @param user_id - The ID of the user sending the message.
+   * @param createContactUsDto - The data transfer object containing the message details.
+   * @throws NotFoundException if the user does not exist or is blocked.
+   */
+  async create(user_id: number, createContactUsDto: CreateContactUsDto): Promise<void> {
     try {
       // check that user_id exists
-      await this.usersRepository.findOneOrFail({where:{user_id: user_id, is_blocked: false, account_disabled: false}, select:['user_id']});
+      await this.usersRepository.findOneOrFail({ where: { user_id: user_id, is_blocked: false, account_disabled: false }, select: ['user_id'] });
 
       // insert the message
       await this.contactUsRepository.save({
@@ -31,7 +41,13 @@ export class ContactUsService {
     }
   }
 
-  async findAll(page: number = 1, limit: number = 10){
+  /**
+   * Retrieves a paginated list of all contact messages.
+   * @param page - The page number to retrieve (default is 1).
+   * @param limit - The number of messages per page (default is 10).
+   * @returns An object containing the list of messages, total count, current page, and total pages.
+   */
+  async findAll(page: number = 1, limit: number = 10) {
     try {
       const [results, total]: any = await this.contactUsRepository
         .createQueryBuilder("contact")
@@ -62,7 +78,13 @@ export class ContactUsService {
     }
   }
 
-  async findOne(id: number): Promise<ContactUs>  {
+  /**
+   * Retrieves a specific contact message by its ID.
+   * @param id - The ID of the contact message to retrieve.
+   * @returns The contact message object, including user details.
+   * @throws NotFoundException if the message is not found.
+   */
+  async findOne(id: number): Promise<ContactUs> {
     try {
       const contactMessage: any = await this.contactUsRepository
         .createQueryBuilder("contact")
@@ -91,16 +113,26 @@ export class ContactUsService {
     }
   }
 
-  async resolveMessage(id: number): Promise<void>  {
+  /**
+   * Resolves a contact message by updating its status to resolved.
+   * @param id - The ID of the contact message to resolve.
+   * @throws NotFoundException if the message is not found.
+   */
+  async resolveMessage(id: number): Promise<void> {
     try {
       await this.contactUsRepository.findOneByOrFail({ id });
-      await this.contactUsRepository.update(id, {status: 1});
+      await this.contactUsRepository.update(id, { status: 1 });
     } catch (error) {
       if (error instanceof EntityNotFoundError) throw new NotFoundException('Message not found.');
       throw new Error(error);
     }
   }
 
+  /**
+   * Deletes a contact message by its ID.
+   * @param id - The ID of the contact message to delete.
+   * @throws NotFoundException if the message is not found.
+   */
   async remove(id: number): Promise<void> {
     try {
       await this.contactUsRepository.findOneByOrFail({ id });

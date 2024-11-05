@@ -19,6 +19,10 @@ import { ResponseStatus } from '../../../common/decorators/response-status.decor
 import { ResponseMessage } from '../../../common/decorators/response-message.decorator';
 import { ContactUs } from './entities/contact-us.entity';
 
+/**
+ * Controller for managing 'Contact Us' messages.
+ * Handles creating, retrieving, updating, and deleting messages from users.
+ */
 @Controller('contact-us')
 @UseInterceptors(ResponseInterceptor)
 export class ContactUsController {
@@ -26,6 +30,14 @@ export class ContactUsController {
 
   constructor(private readonly contactUsService: ContactUsService) {}
 
+  /**
+   * Creates a new contact us message.
+   *
+   * @param createContactUsDto - Data transfer object containing the message details.
+   * @param req - The request object, used to access user information.
+   * @returns {Promise<void>} - A promise that resolves when the message is successfully created.
+   * @throws Will log an error and throw it if creation fails.
+   */
   @Post()
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseMessage('Your Message sent successfully.')
@@ -39,6 +51,14 @@ export class ContactUsController {
     }
   }
 
+  /**
+   * Retrieves all contact us messages with pagination.
+   *
+   * @param page - The page number to retrieve (default is 1).
+   * @param limit - The number of messages per page (default is 20).
+   * @returns {Promise<ContactUs[]>} - A promise that resolves to an array of contact us messages.
+   * @throws Will log an error and throw it if retrieval fails.
+   */
   @Get()
   @ResponseMessage('Messages retrieved successfully.')
   async findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number, @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number) {
@@ -50,9 +70,16 @@ export class ContactUsController {
     }
   }
 
+  /**
+   * Retrieves a specific contact us message by ID.
+   *
+   * @param id - The ID of the message to retrieve.
+   * @returns {Promise<ContactUs>} - A promise that resolves to the requested contact us message.
+   * @throws Will log an error and throw it if retrieval fails.
+   */
   @Get('get-message/:id')
   @ResponseMessage('Message retrieved successfully.')
-  async findOne(@Param('id', ParseIntPipe) id: string) {
+  async findOne(@Param('id', ParseIntPipe) id: string): Promise<ContactUs> {
     try {
       return this.contactUsService.findOne(+id);
     } catch (error) {
@@ -61,9 +88,17 @@ export class ContactUsController {
     }
   }
 
+  /**
+   * Resolves a specific contact us message by ID.
+   *
+   * @param id - The ID of the message to resolve.
+   * @param updateContactUsDto - Data transfer object containing the updated message details.
+   * @returns {Promise<void>} - A promise that resolves when the message is successfully resolved.
+   * @throws Will log an error and throw it if resolution fails.
+   */
   @Patch('resolve-message/:id')
   @ResponseMessage('Message resolved successfully.')
-  async update(@Param('id', ParseIntPipe) id: string, @Body() updateContactUsDto: UpdateContactUsDto) {
+  async update(@Param('id', ParseIntPipe) id: string, @Body() updateContactUsDto: UpdateContactUsDto): Promise<void> {
     try {
       await this.contactUsService.resolveMessage(+id);
     } catch (error) {
@@ -72,9 +107,16 @@ export class ContactUsController {
     }
   }
 
+  /**
+   * Deletes a specific contact us message by ID.
+   *
+   * @param id - The ID of the message to delete.
+   * @returns {Promise<void>} - A promise that resolves when the message is successfully deleted.
+   * @throws Will log an error and throw it if deletion fails.
+   */
   @Delete(':id')
   @ResponseMessage('Message removed successfully.')
-  async remove(@Param('id', ParseIntPipe) id: string) {
+  async remove(@Param('id', ParseIntPipe) id: string): Promise<void> {
     try {
       await this.contactUsService.remove(+id);
     } catch (error) {
