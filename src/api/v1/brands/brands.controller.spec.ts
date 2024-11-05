@@ -40,7 +40,7 @@ describe('BrandsController Testing', () => {
     await app.close();
   });
 
-  describe('creating new email for testing purposes', () => {
+  describe('creating new admin user for testing purposes', () => {
     it('registering', async () => {
       const response: any = await request(app.getHttpServer())
         .post(register)
