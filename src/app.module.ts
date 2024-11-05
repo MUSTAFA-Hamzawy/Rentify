@@ -20,8 +20,8 @@ import { TransformTimestampInterceptor } from './common/interceptors/transform-t
 import { DbModule } from './database/db.module';
 import { User } from './api/v1/users/entities/user.entity';
 import { BrandsModule } from './api/v1/brands/brands.module';
-import { Brand } from './api/v1/brands/entities/brand.entity';
 import { LocationsModule } from './api/v1/locations/locations.module';
+import { ContactUsModule } from './api/v1/contact-us/contact-us.module';
 
 @Module({
   imports: [
@@ -43,6 +43,7 @@ import { LocationsModule } from './api/v1/locations/locations.module';
     DbModule,
     BrandsModule,
     LocationsModule,
+    ContactUsModule,
   ],
   controllers: [AppController],
   providers: [
