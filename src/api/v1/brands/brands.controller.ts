@@ -8,7 +8,7 @@ import {
   Delete,
   Query,
   UseInterceptors,
-  ParseIntPipe, HttpStatus, ValidationPipe, UploadedFile,
+  ParseIntPipe, HttpStatus, ValidationPipe, UploadedFile, DefaultValuePipe,
 } from '@nestjs/common';
 import { Multer } from 'multer';
 import { BrandsService } from './brands.service';
@@ -64,7 +64,7 @@ export class BrandsController {
    */
   @Get()
   @ResponseMessage('Brands retrieved successfully.')
-  async findAll(@Query('page', ParseIntPipe) page?: number, @Query('limit', ParseIntPipe) limit?: number): Promise<Brand[]> {
+  async findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number, @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number): Promise<Brand[]> {
     try {
       return await this.brandsService.findAll(page, limit);
     } catch (error) {
