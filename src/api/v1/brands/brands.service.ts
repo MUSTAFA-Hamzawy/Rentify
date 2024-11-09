@@ -95,7 +95,7 @@ export class BrandsService {
       return await this.findOne(brandOldData.brand_id);
     } catch (error) {
       if (error.code === '23505') throw new ConflictException('Brand with this name already exists');
-      if (error instanceof NotFoundException) throw new NotFoundException('Brand not found.');
+      if (error instanceof EntityNotFoundError) throw new NotFoundException('Brand not found.');
 
       throw new Error(error);
     }
