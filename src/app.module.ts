@@ -22,6 +22,7 @@ import { User } from './api/v1/users/entities/user.entity';
 import { BrandsModule } from './api/v1/brands/brands.module';
 import { LocationsModule } from './api/v1/locations/locations.module';
 import { ContactUsModule } from './api/v1/contact-us/contact-us.module';
+import { RolesGuard } from './api/v1/guards/roles.guard';
 
 @Module({
   imports: [
@@ -54,6 +55,10 @@ import { ContactUsModule } from './api/v1/contact-us/contact-us.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
     {
       provide: APP_INTERCEPTOR,

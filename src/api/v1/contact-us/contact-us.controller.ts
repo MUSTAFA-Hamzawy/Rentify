@@ -18,6 +18,8 @@ import { ResponseInterceptor } from '../../../common/interceptors/response.inter
 import { ResponseStatus } from '../../../common/decorators/response-status.decorator';
 import { ResponseMessage } from '../../../common/decorators/response-message.decorator';
 import { ContactUs } from './entities/contact-us.entity';
+import { Role } from '../../../common/role.enum';
+import { Roles } from '../../../common/decorators/roles.decorator';
 
 /**
  * Controller for managing 'Contact Us' messages.
@@ -61,6 +63,7 @@ export class ContactUsController {
    */
   @Get()
   @ResponseMessage('Messages retrieved successfully.')
+  @Roles(Role.Admin)
   async findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number, @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number) {
     try {
       return this.contactUsService.findAll(page, limit);
@@ -79,6 +82,7 @@ export class ContactUsController {
    */
   @Get('get-message/:id')
   @ResponseMessage('Message retrieved successfully.')
+  @Roles(Role.Admin)
   async findOne(@Param('id', ParseIntPipe) id: string): Promise<ContactUs> {
     try {
       return this.contactUsService.findOne(+id);
@@ -98,6 +102,7 @@ export class ContactUsController {
    */
   @Patch('resolve-message/:id')
   @ResponseMessage('Message resolved successfully.')
+  @Roles(Role.Admin)
   async update(@Param('id', ParseIntPipe) id: string, @Body() updateContactUsDto: UpdateContactUsDto): Promise<void> {
     try {
       await this.contactUsService.resolveMessage(+id);
@@ -116,6 +121,7 @@ export class ContactUsController {
    */
   @Delete(':id')
   @ResponseMessage('Message removed successfully.')
+  @Roles(Role.Admin)
   async remove(@Param('id', ParseIntPipe) id: string): Promise<void> {
     try {
       await this.contactUsService.remove(+id);

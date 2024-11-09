@@ -77,6 +77,7 @@ export class UsersService {
           'password',
           'verification_status',
           'account_disabled',
+          'is_admin'
         ],
       });
 
@@ -91,14 +92,14 @@ export class UsersService {
 
       return {
         accessToken: this.generateToken(
-          { email: user.email, user_id: user.user_id },
+          { email: user.email, user_id: user.user_id, role: user.is_admin ? 'admin' : 'user' },
           1,
         ),
         accountStatus: user.account_disabled
           ? 'Your account is deactivated'
           : 'account is active',
         refreshToken: this.generateToken(
-          { email: user.email, user_id: user.user_id },
+          { email: user.email, user_id: user.user_id, role: user.is_admin ? 'admin' : 'user' },
           2,
         ),
       };
@@ -138,7 +139,7 @@ export class UsersService {
    * @returns The generated JWT token.
    */
   generateToken(
-    userData: { email: string; user_id: number },
+    userData: { email: string, user_id: number, role: string },
     tokenType: number = 1,
   ): string {
     const SECRET_KEY =
@@ -150,7 +151,7 @@ export class UsersService {
         ? process.env.ACCESS_TOKEN_EXPIRED_TIME
         : process.env.REFRESH_TOKEN_EXPIRED_TIME;
     return jwt.sign(
-      { email: userData.email, user_id: userData.user_id },
+      { email: userData.email, user_id: userData.user_id, role: userData.role },
       SECRET_KEY,
       { expiresIn: EXPIRED_TIME },
     );
@@ -281,7 +282,7 @@ export class UsersService {
     try {
       // Extract the token
       refreshToken = refreshToken.split('=')[1];
-      const userDecodedData: { user_id: number; email: string } = jwt.verify(
+      const userDecodedData: { user_id: number; email: string, role: string } = jwt.verify(
         refreshToken,
         process.env.JWT_REFRESH_TOKEN_KEY,
       );

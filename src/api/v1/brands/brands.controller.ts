@@ -22,12 +22,15 @@ import { ResponseStatus } from '../../../common/decorators/response-status.decor
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerConfig } from '../../../config/multer.config';
 import { UploadService } from '../../../common/modules/upload/upload.service';
+import { Roles } from '../../../common/decorators/roles.decorator';
+import { Role } from '../../../common/role.enum';
 
 /**
  * Controller for handling brand-related operations.
  */
 @Controller('brands')
 @UseInterceptors(ResponseInterceptor)
+@Roles(Role.Admin)
 export class BrandsController {
   private readonly logger: LoggerService = new LoggerService();
 
@@ -95,9 +98,10 @@ export class BrandsController {
    * @param updateBrandDto The data transfer object containing updated brand details.
    * @returns The updated brand.
    */
-  @Patch(':id')
+  @Patch('')
   @ResponseMessage('Brand updated successfully.')
   @UseInterceptors(FileInterceptor('brand_logo', multerConfig))
+  @Roles(Role.Admin)
   async update(@UploadedFile(ValidationPipe) brand_logo: Multer.File = null, @Body() updateBrandDto: UpdateBrandDto): Promise<Brand> {
     try {
       // Validate the logo
@@ -117,6 +121,7 @@ export class BrandsController {
    */
   @Delete(':id')
   @ResponseMessage('Brand removed successfully.')
+  @Roles(Role.Admin)
   async remove(@Param('id', ParseIntPipe) id: string): Promise<void> {
     try {
       await this.brandsService.remove(+id);
