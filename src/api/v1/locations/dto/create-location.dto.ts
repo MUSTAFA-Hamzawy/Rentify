@@ -1,13 +1,20 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsObject, IsString, ValidateNested } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 class CoordinatesDto {
   @IsNotEmpty()
-  @IsNumber({}, {message: "Latitude field must be a number"})
+  @IsNumber({}, { message: 'Latitude field must be a number' })
   lat: number;
 
   @IsNotEmpty()
-  @IsNumber({}, {message: "Longitude field must be a number"})
+  @IsNumber({}, { message: 'Longitude field must be a number' })
   long: number;
 }
 

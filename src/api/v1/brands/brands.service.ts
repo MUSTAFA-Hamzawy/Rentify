@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,8 +16,10 @@ import { Helpers } from '../../../common/helpers/helpers.class';
  */
 @Injectable()
 export class BrandsService {
-
-  constructor(@InjectRepository(Brand) private readonly brandRepository: Repository<Brand>) {}
+  constructor(
+    @InjectRepository(Brand)
+    private readonly brandRepository: Repository<Brand>,
+  ) {}
 
   /**
    * Creates a new brand with the provided data and logo.
@@ -20,7 +27,10 @@ export class BrandsService {
    * @returns The created brand.
    * @throws ConflictException if a brand with the same name already exists.
    */
-  async create(brandData: { brandDto: CreateBrandDto, brand_logo: string }): Promise<Brand> {
+  async create(brandData: {
+    brandDto: CreateBrandDto;
+    brand_logo: string;
+  }): Promise<Brand> {
     try {
       const brand: Brand = new Brand();
       brand.brand_name = brandData.brandDto.brand_name.toLowerCase();
@@ -43,8 +53,15 @@ export class BrandsService {
    */
   async findAll(page: number = 1, limit: number = 10): Promise<Brand[]> {
     try {
-      return await this.brandRepository.find({ skip: (page - 1) * limit, take: limit });
+      if (page <= 0 || limit <= 0)
+        throw new BadRequestException('Invalid request params.');
+      return await this.brandRepository.find({
+        skip: (page - 1) * limit,
+        take: limit,
+      });
     } catch (error) {
+      if (error instanceof BadRequestException)
+        throw new BadRequestException(error.message);
       throw new Error(error);
     }
   }
@@ -56,12 +73,17 @@ export class BrandsService {
    * @returns The requested brand.
    * @throws NotFoundException if the brand is not found.
    */
-  async findOne(id: number, includeRelatedData: boolean = false): Promise<Brand> {
+  async findOne(
+    id: number,
+    includeRelatedData: boolean = false,
+  ): Promise<Brand> {
     try {
       // TODO: if (includeRelatedData) attach all cars related to this brand to the response
-      const brand: Brand = await this.brandRepository.findOneOrFail({ where: { brand_id: id } });
+      const brand: Brand = await this.brandRepository.findOneOrFail({
+        where: { brand_id: id },
+      });
       brand.brand_name = Helpers.UCFirst(brand.brand_name);
-      brand.brand_logo = brand.brand_logo ? `${process.env.HOST}:${process.env.PORT}/uploads/${brand.brand_logo}` : null;
+      brand.brand_logo = Helpers.getStaticFilePublicPath(brand.brand_logo);
       return brand;
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
@@ -78,24 +100,34 @@ export class BrandsService {
    * @throws ConflictException if a brand with the same name already exists.
    * @throws NotFoundException if the brand is not found.
    */
-  async update(brandData: { updateDto: UpdateBrandDto, brand_logo?: string }): Promise<Brand> {
+  async update(brandData: {
+    updateDto: UpdateBrandDto;
+    brand_logo?: string;
+  }): Promise<Brand> {
     try {
-      const brandOldData: Brand = await this.brandRepository.findOneByOrFail({ brand_id: +brandData.updateDto.brand_id });
+      const brandOldData: Brand = await this.brandRepository.findOneByOrFail({
+        brand_id: +brandData.updateDto.brand_id,
+      });
 
       // removing the old logo
-      if (brandData.brand_logo) await Helpers.removeFile(brandOldData.brand_logo);
+      if (brandData.brand_logo)
+        await Helpers.removeFile(brandOldData.brand_logo);
 
       // update data
       const updateObj = {
         brand_name: brandData.updateDto.brand_name.toLowerCase(),
-        brand_logo: brandData.brand_logo ? brandData.brand_logo : brandOldData.brand_logo,
+        brand_logo: brandData.brand_logo
+          ? brandData.brand_logo
+          : brandOldData.brand_logo,
       };
 
       await this.brandRepository.update(brandOldData.brand_id, updateObj);
       return await this.findOne(brandOldData.brand_id);
     } catch (error) {
-      if (error.code === '23505') throw new ConflictException('Brand with this name already exists');
-      if (error instanceof EntityNotFoundError) throw new NotFoundException('Brand not found.');
+      if (error.code === '23505')
+        throw new ConflictException('Brand with this name already exists');
+      if (error instanceof EntityNotFoundError)
+        throw new NotFoundException('Brand not found.');
 
       throw new Error(error);
     }
@@ -111,7 +143,8 @@ export class BrandsService {
       await this.findOne(id);
       await this.brandRepository.delete(id);
     } catch (error) {
-      if (error instanceof NotFoundException) throw new NotFoundException('Brand is not found.');
+      if (error instanceof NotFoundException)
+        throw new NotFoundException('Brand is not found.');
       throw new Error(error);
     }
   }

@@ -18,5 +18,4 @@ export class CreateBrandDto {
   @TrimString()
   @IsString()
   brand_name: string;
-
 }

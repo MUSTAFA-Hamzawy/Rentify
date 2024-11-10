@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Car } from '../../cars/entities/car.entity';
 
 @Entity('brands')
 export class Brand {
@@ -20,6 +22,13 @@ export class Brand {
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', nullable: true, onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    type: 'timestamp',
+    nullable: true,
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
+
+  @OneToMany(() => Car, car => car.brand_id)
+  cars: Car[];
 }

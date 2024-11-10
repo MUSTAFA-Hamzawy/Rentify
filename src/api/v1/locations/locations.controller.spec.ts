@@ -7,14 +7,13 @@ import * as request from 'supertest';
 import { AppDataSource } from '../../../database/data-source';
 import { User } from '../users/entities/user.entity';
 
-import {ROOT_PATH} from '../../../config/app.config';
+import { ROOT_PATH } from '../../../config/app.config';
 
 const resource: string = 'locations';
 const testingEmail: string = 'test@gmail.com';
 const testingPassword: string = 'Open@1234';
 const register: string = `/users/register`;
 const login: string = `/users/login`;
-
 
 let token: string = '';
 let testingLocationID = null;
@@ -50,7 +49,7 @@ describe('LocationsController Testing', () => {
           confirm_password: testingPassword,
           phone_number: '201121366555',
           verification_status: true,
-          is_admin: true
+          is_admin: true,
         });
 
       expect(response).toBeDefined();
@@ -67,21 +66,19 @@ describe('LocationsController Testing', () => {
     });
   });
 
-
   describe('LocationsController: create', () => {
-
     it('should create a new location', async () => {
       const response: any = await request(app.getHttpServer())
         .post(`/${resource}`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          "address" : "New Cairo, down town",
-          "coordinates" : {
-            "lat": 85.6601,
-            "long": 20.9395
+          address: 'New Cairo, down town',
+          coordinates: {
+            lat: 85.6601,
+            long: 20.9395,
           },
-          "location_type": "pickup"
-        })
+          location_type: 'pickup',
+        });
 
       expect(response).toBeDefined();
       expect(response.status).toBe(HttpStatus.CREATED);
@@ -93,9 +90,9 @@ describe('LocationsController Testing', () => {
         .post(`/${resource}`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          "address" : "New Cairo, down town",
-          "location_type": "pickup"
-        })
+          address: 'New Cairo, down town',
+          location_type: 'pickup',
+        });
 
       expect(response).toBeDefined();
       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
@@ -106,22 +103,20 @@ describe('LocationsController Testing', () => {
         .post(`/${resource}`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          "address" : "New Cairo, down town",
-          "coordinates" : {
-            "lat": "invalid_85.6601",
-            "long": 20.9395
+          address: 'New Cairo, down town',
+          coordinates: {
+            lat: 'invalid_85.6601',
+            long: 20.9395,
           },
-          "location_type": "pickup"
-        })
+          location_type: 'pickup',
+        });
 
       expect(response).toBeDefined();
       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
     });
   });
 
-
   describe('LocationsController: get', () => {
-
     it('should fetch a location with id', async () => {
       const response: any = await request(app.getHttpServer())
         .get(`/${resource}/${testingLocationID}`)
@@ -153,26 +148,23 @@ describe('LocationsController Testing', () => {
   });
 
   describe('LocationsController: udpate', () => {
-
     it('should update a location', async () => {
       const response: any = await request(app.getHttpServer())
         .patch(`/${resource}/${testingLocationID}`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          "address" : "New address",
-          "location_type": "drop_off"
+          address: 'New address',
+          location_type: 'drop_off',
         });
 
       expect(response).toBeDefined();
       expect(response.status).toBe(HttpStatus.OK);
-      expect(response.body.data.address).toBe("New address");
-      expect(response.body.data.location_type).toBe("drop_off");
+      expect(response.body.data.address).toBe('New address');
+      expect(response.body.data.location_type).toBe('drop_off');
     });
-
   });
 
   describe('LocationsController: delete', () => {
-
     it('should remove a location with id', async () => {
       const response: any = await request(app.getHttpServer())
         .delete(`/${resource}/${testingLocationID}`)

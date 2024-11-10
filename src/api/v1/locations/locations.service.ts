@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { Location } from './entities/location.entity';
@@ -11,9 +16,10 @@ import { EntityNotFoundError, Repository } from 'typeorm';
  */
 @Injectable()
 export class LocationsService {
-
-  constructor(@InjectRepository(Location) private readonly locationsRepository: Repository<Location>) {
-  }
+  constructor(
+    @InjectRepository(Location)
+    private readonly locationsRepository: Repository<Location>,
+  ) {}
 
   /**
    * Creates a new location.
@@ -42,8 +48,15 @@ export class LocationsService {
    */
   async findAll(page: number = 1, limit: number = 10): Promise<Location[]> {
     try {
-      return await this.locationsRepository.find({ skip: (page - 1) * limit, take: limit });
+      if (page <= 0 || limit <= 0)
+        throw new BadRequestException('Invalid request params.');
+      return await this.locationsRepository.find({
+        skip: (page - 1) * limit,
+        take: limit,
+      });
     } catch (error) {
+      if (error instanceof BadRequestException)
+        throw new BadRequestException(error.message);
       throw new Error(error);
     }
   }
@@ -57,9 +70,12 @@ export class LocationsService {
    */
   async findOne(id: number): Promise<Location> {
     try {
-      return await this.locationsRepository.findOneByOrFail({ location_id: id });
+      return await this.locationsRepository.findOneByOrFail({
+        location_id: id,
+      });
     } catch (error) {
-      if (error instanceof EntityNotFoundError) throw new NotFoundException('Brand not found.');
+      if (error instanceof EntityNotFoundError)
+        throw new NotFoundException('Brand not found.');
       throw new Error(error);
     }
   }
@@ -72,17 +88,27 @@ export class LocationsService {
    * @throws NotFoundException if the location is not found.
    * @throws Error if update fails for other reasons.
    */
-  async update(id: number, updateLocationDto: UpdateLocationDto): Promise<Location> {
+  async update(
+    id: number,
+    updateLocationDto: UpdateLocationDto,
+  ): Promise<Location> {
     try {
       const location: Location = await this.findOne(id);
-      location.address = updateLocationDto.address ? updateLocationDto.address : location.address;
-      location.coordinates = updateLocationDto.coordinates ? updateLocationDto.coordinates : location.coordinates;
-      location.location_type = updateLocationDto.location_type ? updateLocationDto.location_type : location.location_type;
+      location.address = updateLocationDto.address
+        ? updateLocationDto.address
+        : location.address;
+      location.coordinates = updateLocationDto.coordinates
+        ? updateLocationDto.coordinates
+        : location.coordinates;
+      location.location_type = updateLocationDto.location_type
+        ? updateLocationDto.location_type
+        : location.location_type;
       await this.locationsRepository.update(id, location);
       location.updated_at = new Date();
       return location;
     } catch (error) {
-      if (error instanceof NotFoundException) throw new NotFoundException('Location is not found.');
+      if (error instanceof NotFoundException)
+        throw new NotFoundException('Location is not found.');
       throw new Error(error);
     }
   }
@@ -98,7 +124,8 @@ export class LocationsService {
       await this.findOne(id);
       await this.locationsRepository.delete(id);
     } catch (error) {
-      if (error instanceof NotFoundException) throw new NotFoundException('Location is not found.');
+      if (error instanceof NotFoundException)
+        throw new NotFoundException('Location is not found.');
       throw new Error(error);
     }
   }

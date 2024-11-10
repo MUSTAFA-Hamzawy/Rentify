@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
 @Entity('contacts')
@@ -24,7 +32,7 @@ export class ContactUs {
   @UpdateDateColumn({ type: 'timestamp', nullable: true })
   updated_at: Date;
 
-  @ManyToOne(() => User, (user) => user.contactMessages, { onDelete: 'SET NULL' })
+  @ManyToOne(() => User, user => user.contactMessages, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'user_id' })
   user: User;
 }

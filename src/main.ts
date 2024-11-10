@@ -28,7 +28,9 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   app.use(helmet());
   app.use(compression());
-  app.useStaticAssets(path.join(__dirname, '..', 'uploads'), {prefix: '/uploads/'});
+  app.useStaticAssets(path.join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/',
+  });
   app.use(
     '/api/v1/api-docs',
     swaggerUi.serve,
