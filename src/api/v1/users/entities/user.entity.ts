@@ -61,12 +61,4 @@ export class User {
 
   @OneToMany(() => CarReview, review => review.user)
   reviews: CarReview[];
-
-  // @ManyToMany(() => PaymentMethod, paymentMethod => paymentMethod.users)
-  // @JoinTable({
-  //     name: 'user_payment_methods',
-  //     joinColumn: { name: 'user_id', referencedColumnName: 'user_id' },
-  //     inverseJoinColumn: { name: 'method_id', referencedColumnName: 'id' }
-  // })
-  // paymentMethods: PaymentMethod[];
 }

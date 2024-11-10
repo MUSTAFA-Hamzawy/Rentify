@@ -30,7 +30,11 @@ export class CarReview {
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', nullable: true })
+  @UpdateDateColumn({
+    type: 'timestamp',
+    nullable: true,
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
 
   @ManyToOne(() => Car, car => car.reviews, {

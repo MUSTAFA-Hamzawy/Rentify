@@ -13,6 +13,7 @@ import { Location } from '../../locations/entities/location.entity';
 import { CarPolicy } from './car-policies.entity';
 import { CarImage } from './car-images.entity';
 import { CarReview } from '../../car-reviews/entities/car-review.entity';
+import { Discount } from '../../discounts/entities/discount.entity';
 
 @Entity('cars')
 export class Car {
@@ -85,7 +86,11 @@ export class Car {
   @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @UpdateDateColumn({ nullable: true })
+  @UpdateDateColumn({
+    type: 'timestamp',
+    nullable: true,
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
 
   @ManyToOne(() => Brand, brand => brand.cars, {
@@ -120,4 +125,7 @@ export class Car {
 
   @OneToMany(() => CarReview, review => review.car)
   reviews: CarReview[];
+
+  @OneToMany(() => Discount, discount => discount.car)
+  discounts: Discount[];
 }
