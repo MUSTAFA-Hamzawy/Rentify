@@ -6,6 +6,7 @@ import {
   ROOT_PATH,
   ALLOWED_IMAGE_MIME_TYPES,
   MAX_IMAGE_SIZE,
+  MAX_NUM_OF_IMAGES_PER_CAR,
 } from './app.config';
 import { ConflictException } from '@nestjs/common';
 import * as fs from 'fs';
@@ -26,6 +27,7 @@ export const multerConfig: MulterOptions = {
   }),
   limits: {
     fileSize: MAX_IMAGE_SIZE,
+    files: MAX_NUM_OF_IMAGES_PER_CAR,
   },
   fileFilter: (req, file, callback) => {
     if (ALLOWED_IMAGE_MIME_TYPES.includes(file.mimetype)) {

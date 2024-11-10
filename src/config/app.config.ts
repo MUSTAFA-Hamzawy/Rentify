@@ -8,6 +8,7 @@ const API_PATH: string = path.join(SRC_PATH, 'api', 'v1');
 const ALLOWED_IMAGE_MIME_TYPES: string[] = ['image/jpeg', 'image/png'];
 const ALLOWED_IMAGE_TYPES: string[] = ['jpeg', 'png'];
 const MAX_IMAGE_SIZE: number = 5 * 1024 * 1024; // 5 MB
+const MAX_NUM_OF_IMAGES_PER_CAR: number = 10;
 
 export {
   ROOT_PATH,
@@ -17,4 +18,5 @@ export {
   ALLOWED_IMAGE_MIME_TYPES,
   ALLOWED_IMAGE_TYPES,
   MAX_IMAGE_SIZE,
+  MAX_NUM_OF_IMAGES_PER_CAR,
 };
