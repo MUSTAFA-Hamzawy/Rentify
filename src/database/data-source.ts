@@ -20,6 +20,7 @@ import { CarPolicy } from '../api/v1/cars/entities/car-policies.entity';
 import { CarFactory } from './seeders/cars.factory';
 import { CarImageFactory } from './seeders/car-images.factory';
 import { CarReview } from '../api/v1/car-reviews/entities/car-review.entity';
+import { Discount } from '../api/v1/discounts/entities/discount.entity';
 config();
 const dbConfigFile = join(SRC_PATH, 'database', 'db.config.json');
 
@@ -45,6 +46,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
     CarImage,
     CarPolicy,
     CarReview,
+    Discount,
   ],
   factories: [
     UserFactory,
