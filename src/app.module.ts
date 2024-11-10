@@ -24,6 +24,7 @@ import { LocationsModule } from './api/v1/locations/locations.module';
 import { ContactUsModule } from './api/v1/contact-us/contact-us.module';
 import { RolesGuard } from './api/v1/guards/roles.guard';
 import { CarsModule } from './api/v1/cars/cars.module';
+import { CarReviewsModule } from './api/v1/car-reviews/car-reviews.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { CarsModule } from './api/v1/cars/cars.module';
     LocationsModule,
     ContactUsModule,
     CarsModule,
+    CarReviewsModule,
   ],
   controllers: [AppController],
   providers: [
