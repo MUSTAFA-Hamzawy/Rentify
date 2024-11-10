@@ -11,7 +11,7 @@ import {
   ValidationPipe,
   ParseIntPipe,
   Req,
-  Query
+  Query,
 } from '@nestjs/common';
 import { CarReviewsService } from './car-reviews.service';
 import { CreateCarReviewDto } from './dto/create-car-review.dto';
