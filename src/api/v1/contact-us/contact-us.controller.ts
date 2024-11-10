@@ -8,7 +8,11 @@ import {
   Delete,
   UseInterceptors,
   HttpStatus,
-  ValidationPipe, Req, ParseIntPipe, Query, DefaultValuePipe,
+  ValidationPipe,
+  Req,
+  ParseIntPipe,
+  Query,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { ContactUsService } from './contact-us.service';
 import { CreateContactUsDto } from './dto/create-contact-us.dto';
@@ -43,7 +47,10 @@ export class ContactUsController {
   @Post()
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseMessage('Your Message sent successfully.')
-  async create(@Body(ValidationPipe) createContactUsDto: CreateContactUsDto, @Req() req): Promise<void> {
+  async create(
+    @Body(ValidationPipe) createContactUsDto: CreateContactUsDto,
+    @Req() req,
+  ): Promise<void> {
     try {
       const user_id: number = req.user.user_id;
       await this.contactUsService.create(user_id, createContactUsDto);
@@ -64,7 +71,10 @@ export class ContactUsController {
   @Get()
   @ResponseMessage('Messages retrieved successfully.')
   @Roles(Role.Admin)
-  async findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number, @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number) {
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ) {
     try {
       return this.contactUsService.findAll(page, limit);
     } catch (error) {
@@ -103,7 +113,10 @@ export class ContactUsController {
   @Patch('resolve-message/:id')
   @ResponseMessage('Message resolved successfully.')
   @Roles(Role.Admin)
-  async update(@Param('id', ParseIntPipe) id: string, @Body() updateContactUsDto: UpdateContactUsDto): Promise<void> {
+  async update(
+    @Param('id', ParseIntPipe) id: string,
+    @Body() updateContactUsDto: UpdateContactUsDto,
+  ): Promise<void> {
     try {
       await this.contactUsService.resolveMessage(+id);
     } catch (error) {

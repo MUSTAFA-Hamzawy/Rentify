@@ -39,7 +39,9 @@ export class TransformTimestampInterceptor<T> implements NestInterceptor<T, T> {
   private transformTimestamps(data) {
     // if data is array
     if (isArray(data)) {
-      data.map(item => {this.formatItem(item)});
+      data.map(item => {
+        this.formatItem(item);
+      });
       return data;
     }
     return data ? this.formatItem(data) : data;

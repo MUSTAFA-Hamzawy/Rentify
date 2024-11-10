@@ -8,7 +8,11 @@ import {
   Delete,
   Query,
   UseInterceptors,
-  ParseIntPipe, HttpStatus, ValidationPipe, UploadedFile, DefaultValuePipe,
+  ParseIntPipe,
+  HttpStatus,
+  ValidationPipe,
+  UploadedFile,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { Multer } from 'multer';
 import { BrandsService } from './brands.service';
@@ -30,11 +34,13 @@ import { Role } from '../../../common/role.enum';
  */
 @Controller('brands')
 @UseInterceptors(ResponseInterceptor)
-@Roles(Role.Admin)
 export class BrandsController {
   private readonly logger: LoggerService = new LoggerService();
 
-  constructor(private readonly brandsService: BrandsService, private readonly uploadService: UploadService) {}
+  constructor(
+    private readonly brandsService: BrandsService,
+    private readonly uploadService: UploadService,
+  ) {}
 
   /**
    * Creates a new brand with the provided data and logo.
@@ -46,13 +52,20 @@ export class BrandsController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseMessage('Brand added successfully.')
   @UseInterceptors(FileInterceptor('brand_logo', multerConfig))
-  async create(@UploadedFile() brand_logo: Multer.File, @Body(ValidationPipe) createBrandDto: CreateBrandDto): Promise<Brand> {
+  @Roles(Role.Admin)
+  async create(
+    @UploadedFile() brand_logo: Multer.File,
+    @Body(ValidationPipe) createBrandDto: CreateBrandDto,
+  ): Promise<Brand> {
     try {
       // Validate the logo
       await this.uploadService.validateImage(brand_logo);
 
       // Creating new brand
-      return this.brandsService.create({ brandDto: createBrandDto, brand_logo: brand_logo.filename });
+      return this.brandsService.create({
+        brandDto: createBrandDto,
+        brand_logo: brand_logo.filename,
+      });
     } catch (error) {
       this.logger.error(error.message, `create, ${BrandsController.name}`);
       throw error;
@@ -67,7 +80,10 @@ export class BrandsController {
    */
   @Get()
   @ResponseMessage('Brands retrieved successfully.')
-  async findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number, @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number): Promise<Brand[]> {
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
+  ): Promise<Brand[]> {
     try {
       return await this.brandsService.findAll(page, limit);
     } catch (error) {
@@ -102,13 +118,19 @@ export class BrandsController {
   @ResponseMessage('Brand updated successfully.')
   @UseInterceptors(FileInterceptor('brand_logo', multerConfig))
   @Roles(Role.Admin)
-  async update(@UploadedFile(ValidationPipe) brand_logo: Multer.File = null, @Body() updateBrandDto: UpdateBrandDto): Promise<Brand> {
+  async update(
+    @UploadedFile(ValidationPipe) brand_logo: Multer.File = null,
+    @Body() updateBrandDto: UpdateBrandDto,
+  ): Promise<Brand> {
     try {
       // Validate the logo
       if (brand_logo) await this.uploadService.validateImage(brand_logo);
 
       // Updating brand
-      return this.brandsService.update({ updateDto: updateBrandDto, brand_logo: brand_logo ? brand_logo.filename : null });
+      return this.brandsService.update({
+        updateDto: updateBrandDto,
+        brand_logo: brand_logo ? brand_logo.filename : null,
+      });
     } catch (error) {
       this.logger.error(error.message, `update, ${BrandsController.name}`);
       throw error;

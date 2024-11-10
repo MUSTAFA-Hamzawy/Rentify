@@ -52,6 +52,17 @@ export class Helpers {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  /**
+   * To get the static path of a file for frontend.
+   *
+   * @param {string} relativePath - relative path which stored in db
+   * @returns {string} - A new string with the absolute path.
+   */
+  public static getStaticFilePublicPath(relativePath: string): string {
+    return relativePath
+      ? `${process.env.HOST}:${process.env.PORT}/uploads/${relativePath}`
+      : null;
+  }
 
   public static ResponseFormat(
     message: string = 'Request processed successfully',

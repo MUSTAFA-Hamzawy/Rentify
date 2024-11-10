@@ -47,4 +47,30 @@ export class UploadService {
       throw new InternalServerErrorException(e);
     }
   }
+
+  /**
+   * Validates multiple files.
+   *
+   * @param files The files to be validated.
+   * @throws BadRequestException if no file is uploaded or if the file type is not allowed.
+   * @throws InternalServerErrorException if an internal server error occurs.
+   */
+  async validateMultipleImages(files: Multer.File[]): Promise<void> {
+    try {
+      if (files.length === 0)
+        throw new BadRequestException('No files uploaded');
+      files.forEach(file => {
+        this.validateImage(file);
+      });
+    } catch (e) {
+      this.logger.error(
+        e.message,
+        `validateMultipleImages, ${UploadService.name}`,
+      );
+
+      if (e instanceof BadRequestException)
+        throw new BadRequestException(e.message);
+      throw new InternalServerErrorException(e);
+    }
+  }
 }

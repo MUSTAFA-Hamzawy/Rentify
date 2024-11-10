@@ -23,6 +23,7 @@ export class CreateCarPoliciesTable1730026511801 implements MigrationInterface {
           {
             name: 'car_id',
             type: 'int',
+            isUnique: true,
             isNullable: true,
           },
           {

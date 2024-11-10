@@ -14,6 +14,11 @@ import { Location } from '../api/v1/locations/entities/location.entity';
 import { LocationFactory } from './seeders/locations.factory';
 import { ContactUs } from '../api/v1/contact-us/entities/contact-us.entity';
 import * as process from 'node:process';
+import { Car } from '../api/v1/cars/entities/car.entity';
+import { CarImage } from '../api/v1/cars/entities/car-images.entity';
+import { CarPolicy } from '../api/v1/cars/entities/car-policies.entity';
+import { CarFactory } from './seeders/cars.factory';
+import { CarImageFactory } from './seeders/car-images.factory';
 config();
 const dbConfigFile = join(SRC_PATH, 'database', 'db.config.json');
 
@@ -29,8 +34,23 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   password: dbConfig.password,
   database: dbConfig.database,
   migrations: ['dist/database/migrations/**/*.js'],
-  entities: [User, TokenBlackList, Brand, Location, ContactUs],
-  factories: [UserFactory, BrandFactory, LocationFactory],
+  entities: [
+    User,
+    TokenBlackList,
+    Brand,
+    Location,
+    ContactUs,
+    Car,
+    CarImage,
+    CarPolicy,
+  ],
+  factories: [
+    UserFactory,
+    BrandFactory,
+    LocationFactory,
+    CarFactory,
+    CarImageFactory,
+  ],
   seeds: [MainSeeder],
   logging: process.env.NODE_ENV === 'development',
 };

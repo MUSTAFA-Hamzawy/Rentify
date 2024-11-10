@@ -8,7 +8,7 @@ import * as request from 'supertest';
 import { AppDataSource } from '../../../database/data-source';
 import { User } from '../users/entities/user.entity';
 
-import {ROOT_PATH} from '../../../config/app.config';
+import { ROOT_PATH } from '../../../config/app.config';
 
 const resource: string = 'brands';
 const testingEmail: string = 'test@gmail.com';
@@ -16,7 +16,6 @@ const testingPassword: string = 'Open@1234';
 const testingBrandName = 'Kiaa';
 const register: string = `/users/register`;
 const login: string = `/users/login`;
-
 
 let token: string = '';
 describe('BrandsController Testing', () => {
@@ -36,7 +35,9 @@ describe('BrandsController Testing', () => {
 
   afterAll(async () => {
     await AppDataSource.getRepository(User).delete({ email: testingEmail });
-    await AppDataSource.getRepository(Brand).delete({ brand_name: testingBrandName });
+    await AppDataSource.getRepository(Brand).delete({
+      brand_name: testingBrandName,
+    });
     await app.close();
   });
 
@@ -52,7 +53,7 @@ describe('BrandsController Testing', () => {
           confirm_password: testingPassword,
           phone_number: '201121366555',
           verification_status: true,
-          is_admin: true
+          is_admin: true,
         });
 
       expect(response).toBeDefined();
@@ -69,9 +70,7 @@ describe('BrandsController Testing', () => {
     });
   });
 
-
   describe('BrandsController: create', () => {
-
     it('should create a new brand', async () => {
       const response: any = await request(app.getHttpServer())
         .post(`/${resource}`)

@@ -77,7 +77,7 @@ export class UsersService {
           'password',
           'verification_status',
           'account_disabled',
-          'is_admin'
+          'is_admin',
         ],
       });
 
@@ -92,14 +92,22 @@ export class UsersService {
 
       return {
         accessToken: this.generateToken(
-          { email: user.email, user_id: user.user_id, role: user.is_admin ? 'admin' : 'user' },
+          {
+            email: user.email,
+            user_id: user.user_id,
+            role: user.is_admin ? 'admin' : 'user',
+          },
           1,
         ),
         accountStatus: user.account_disabled
           ? 'Your account is deactivated'
           : 'account is active',
         refreshToken: this.generateToken(
-          { email: user.email, user_id: user.user_id, role: user.is_admin ? 'admin' : 'user' },
+          {
+            email: user.email,
+            user_id: user.user_id,
+            role: user.is_admin ? 'admin' : 'user',
+          },
           2,
         ),
       };
@@ -139,7 +147,7 @@ export class UsersService {
    * @returns The generated JWT token.
    */
   generateToken(
-    userData: { email: string, user_id: number, role: string },
+    userData: { email: string; user_id: number; role: string },
     tokenType: number = 1,
   ): string {
     const SECRET_KEY =
@@ -257,9 +265,7 @@ export class UsersService {
           'updated_at',
         ],
       });
-      profile.image = profile.image
-        ? `${process.env.HOST}:${process.env.PORT}/uploads/${profile.image}`
-        : null;
+      profile.image = Helpers.getStaticFilePublicPath(profile.image);
       return profile;
     } catch (error) {
       if (error instanceof EntityNotFoundError)
@@ -282,10 +288,8 @@ export class UsersService {
     try {
       // Extract the token
       refreshToken = refreshToken.split('=')[1];
-      const userDecodedData: { user_id: number; email: string, role: string } = jwt.verify(
-        refreshToken,
-        process.env.JWT_REFRESH_TOKEN_KEY,
-      );
+      const userDecodedData: { user_id: number; email: string; role: string } =
+        jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_KEY);
       return userDecodedData;
     } catch (error) {
       throw new UnauthorizedException('This token is invalid.');
@@ -392,7 +396,7 @@ export class UsersService {
       await Helpers.removeFile(user.image);
       user.image = filename;
       await this.userRepository.save(user);
-      return `${process.env.HOST}:${process.env.PORT}/uploads/${filename}`;
+      return Helpers.getStaticFilePublicPath(filename);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

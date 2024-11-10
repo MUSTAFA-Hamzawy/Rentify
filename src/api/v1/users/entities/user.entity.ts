@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeUpdate, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeUpdate,
+  OneToMany,
+} from 'typeorm';
 import { Factory } from 'nestjs-seeder';
 import { ContactUs } from '../../contact-us/entities/contact-us.entity';
 
@@ -46,7 +52,7 @@ export class User {
   @Column({ type: 'timestamp', nullable: true, onUpdate: 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 
-  @OneToMany(() => ContactUs, (contact) => contact.user)
+  @OneToMany(() => ContactUs, contact => contact.user)
   contactMessages: ContactUs[];
 
   // @OneToOne(() => Order, order => order.user)

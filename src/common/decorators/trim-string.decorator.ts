@@ -10,7 +10,7 @@ import {
  * @param validationOptions Optional validation options.
  * @returns A function that registers the decorator.
  */
-export function TrimString(validationOptions?: any) {
+export function TrimString(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       name: 'TrimString',
@@ -19,9 +19,13 @@ export function TrimString(validationOptions?: any) {
       options: validationOptions,
       validator: {
         validate(value: string, args: ValidationArguments) {
-          if (!value) return true; // pass to the next validation
+          if (!value) return true;
+          if (value.trim().length === 0) return false;
           args.object[propertyName] = value.trim();
           return true;
+        },
+        defaultMessage(args: ValidationArguments) {
+          return `${args.property} can not be empty.`;
         },
       },
     });

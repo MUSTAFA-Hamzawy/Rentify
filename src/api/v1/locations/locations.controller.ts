@@ -8,7 +8,10 @@ import {
   Delete,
   UseInterceptors,
   HttpStatus,
-  ValidationPipe, ParseIntPipe, Query, DefaultValuePipe,
+  ValidationPipe,
+  ParseIntPipe,
+  Query,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { LocationsService } from './locations.service';
 import { CreateLocationDto } from './dto/create-location.dto';
@@ -42,7 +45,9 @@ export class LocationsController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseMessage('Location added successfully.')
   @Roles(Role.Admin)
-  async create(@Body(ValidationPipe) createLocationDto: CreateLocationDto): Promise<Location> {
+  async create(
+    @Body(ValidationPipe) createLocationDto: CreateLocationDto,
+  ): Promise<Location> {
     try {
       return this.locationsService.create(createLocationDto);
     } catch (error) {
@@ -61,7 +66,10 @@ export class LocationsController {
   @Get()
   @ResponseMessage('Brands retrieved successfully.')
   @Roles(Role.Admin)
-  async findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number, @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number): Promise<Location[]> {
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number,
+  ): Promise<Location[]> {
     try {
       return this.locationsService.findAll(page, limit);
     } catch (error) {
@@ -97,7 +105,10 @@ export class LocationsController {
   @Patch(':id')
   @ResponseMessage('Location updated successfully.')
   @Roles(Role.Admin)
-  async update(@Param('id', ParseIntPipe) id: string, @Body() updateLocationDto: UpdateLocationDto): Promise<Location> {
+  async update(
+    @Param('id', ParseIntPipe) id: string,
+    @Body() updateLocationDto: UpdateLocationDto,
+  ): Promise<Location> {
     try {
       return this.locationsService.update(+id, updateLocationDto);
     } catch (error) {
