@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Factory } from 'nestjs-seeder';
 import { ContactUs } from '../../contact-us/entities/contact-us.entity';
+import { CarReview } from '../../car-reviews/entities/car-review.entity';
 
 @Entity('users')
 export class User {
@@ -57,6 +58,9 @@ export class User {
 
   // @OneToOne(() => Order, order => order.user)
   // order: Order;
+
+  @OneToMany(() => CarReview, review => review.user)
+  reviews: CarReview[];
 
   // @ManyToMany(() => PaymentMethod, paymentMethod => paymentMethod.users)
   // @JoinTable({

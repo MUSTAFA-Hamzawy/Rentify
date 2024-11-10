@@ -12,6 +12,7 @@ import { Brand } from '../../brands/entities/brand.entity';
 import { Location } from '../../locations/entities/location.entity';
 import { CarPolicy } from './car-policies.entity';
 import { CarImage } from './car-images.entity';
+import { CarReview } from '../../car-reviews/entities/car-review.entity';
 
 @Entity('cars')
 export class Car {
@@ -116,4 +117,7 @@ export class Car {
 
   @OneToMany(() => CarImage, image => image.car)
   images: CarImage[];
+
+  @OneToMany(() => CarReview, review => review.car)
+  reviews: CarReview[];
 }

@@ -28,7 +28,7 @@ export class CreateCarReviewsTable1730026511802 implements MigrationInterface {
           {
             name: 'review_rate',
             type: 'smallint',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'car_id',
