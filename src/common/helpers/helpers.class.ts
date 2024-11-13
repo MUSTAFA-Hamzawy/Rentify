@@ -1,10 +1,11 @@
 import { HttpStatus, InternalServerErrorException } from '@nestjs/common';
-import { ROOT_PATH } from '../../config/app.config';
+import { API_PATH, ROOT_PATH } from '../../config/app.config';
 import { formatDistanceToNow } from 'date-fns';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as CC from 'currency-converter-lt';
-import { number } from 'joi';
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
 
 /**
  * This class contains helper methods for various operations.
@@ -88,4 +89,33 @@ export class Helpers {
       throw new InternalServerErrorException(error);
     }
   }
+
+  /**
+   * Adjusts the port in the OpenAPI documentation JSON file to match the specified port.
+   * This is useful for dynamically updating the API documentation link, ensuring
+   * it reflects the current server port.
+   *
+   * @param port - The new port to set in the server URL in the OpenAPI JSON file.
+   * @throws Error if there is an issue reading or writing to the OpenAPI JSON file.
+   */
+  public static adjustAPIDocsLink(port: string): void{
+    const API_DOCS_PATH: string = join(API_PATH, 'docs', 'openapi.json');
+    try {
+      // Read the openapi.json file content
+      const fileContent = readFileSync(API_DOCS_PATH, 'utf-8');
+      const apiDocs = JSON.parse(fileContent);
+
+      // Update the server URL with the specified port
+      if (apiDocs.servers && apiDocs.servers.length > 0) {
+        apiDocs.servers[0].url = apiDocs.servers[0].url.replace(/:\d+/, `:${port}`);
+      }
+
+      // Write the updated content back to the openapi.json file
+      writeFileSync(API_DOCS_PATH, JSON.stringify(apiDocs, null, 2), 'utf-8');
+    } catch (error) {
+      console.error('Failed to update API docs link:', error);
+      throw new Error('Could not update the OpenAPI documentation link');
+    }
+  }
+
 }
