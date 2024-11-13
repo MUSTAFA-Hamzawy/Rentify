@@ -23,7 +23,6 @@ async function bootstrap() {
 
   // app.useGlobalFilters(new AllExceptionsFilter());
   app.useLogger(app.get(LoggerService));
-  app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
   app.setGlobalPrefix('api/v1');
   app.use(helmet());
@@ -40,8 +39,5 @@ async function bootstrap() {
   await app.listen(PORT);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
-bootstrap();
 
-// TODO:
-// 1- CORS : https://youtu.be/8_X0nSrzrCw?t=8015
-// 2 helmet config
+bootstrap();

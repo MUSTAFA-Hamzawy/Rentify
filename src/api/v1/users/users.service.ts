@@ -48,9 +48,12 @@ export class UsersService {
     try {
       const hashedPassword = await this.hashPassword(data.password);
       const user = {
-        ...data,
-        otp_secret_key: speakeasy.generateSecret({ length: 20 }).base32,
+        full_name: data.full_name,
+        email: data.email,
+        preferred_currency: data.preferred_currency,
         password: hashedPassword,
+        phone_number: data.phone_number,
+        otp_secret_key: speakeasy.generateSecret({ length: 20 }).base32,
       };
 
       await this.userRepository.save(user);

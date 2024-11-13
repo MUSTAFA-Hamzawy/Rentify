@@ -68,6 +68,7 @@ export class OrdersService {
           'car.car_id',
           'car.is_available',
           'car.rental_price',
+          'car.minimum_rental_period',
           'discount.discount_percentage',
         ])
         .getOne();
@@ -88,6 +89,12 @@ export class OrdersService {
         rentalInterval,
         discount,
       );
+
+      // validation on renting interval
+      if (car.minimum_rental_period > rentalInterval)
+        throw new BadRequestException(
+          `Minimum renting interval for this car is ${car.minimum_rental_period} days`,
+        );
 
       // save the order
       const order: Order = new Order();
@@ -115,6 +122,8 @@ export class OrdersService {
     } catch (error) {
       if (error instanceof NotFoundException)
         throw new NotFoundException(error.message);
+      if (error instanceof BadRequestException)
+        throw new BadRequestException(error.message);
       throw new Error(error);
     }
   }

@@ -33,7 +33,13 @@ export class DiscountsService {
       await this.carRepository.findOneByOrFail({
         car_id: createDiscountDto.car_id,
       });
-      await this.discountRepository.save(createDiscountDto);
+
+      await this.discountRepository.save({
+        start_date: createDiscountDto.start_date,
+        end_date: createDiscountDto.end_date,
+        discount_percentage: createDiscountDto.discount_percentage,
+        car_id: createDiscountDto.car_id,
+      });
     } catch (error) {
       if (error instanceof EntityNotFoundError)
         throw new NotFoundException('Car Not found.');

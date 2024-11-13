@@ -45,7 +45,9 @@ export class CarReviewsService {
       });
 
       return await this.carReviewRepository.save({
-        ...createCarReviewDto,
+        car_id: createCarReviewDto.car_id,
+        review_rate: createCarReviewDto.review_rate,
+        review_text: createCarReviewDto.review_text || '',
         user_id: user_id,
       });
     } catch (error) {

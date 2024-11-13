@@ -85,7 +85,7 @@ export class MailerService {
       <h1>Order Update from Rentify</h1>
       <p>Dear ${userName},</p>
       <p>Your car rental order with id <strong>#${orderId}</strong> is <strong>${orderStatus.charAt(0).toUpperCase() + orderStatus.slice(1)}</strong>.</p>`;
-      console.log(orderStatus.toLowerCase());
+
       if (orderStatus.toLowerCase() === 'pending') {
         body += `
       <p><strong>Order Details:</strong></p>

@@ -7,8 +7,10 @@ import {
   Validate,
 } from 'class-validator';
 import { IsAfterDate } from '../../../../common/decorators/is-after-date.decorator';
+import { IsTodayOrAfter } from '../../../../common/decorators/is-today-or-after.decorator';
 
 export class CreateDiscountDto {
+  @IsTodayOrAfter()
   @IsDateString()
   @IsNotEmpty()
   start_date: string;
