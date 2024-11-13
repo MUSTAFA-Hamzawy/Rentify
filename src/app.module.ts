@@ -26,6 +26,7 @@ import { RolesGuard } from './api/v1/guards/roles.guard';
 import { CarsModule } from './api/v1/cars/cars.module';
 import { CarReviewsModule } from './api/v1/car-reviews/car-reviews.module';
 import { DiscountsModule } from './api/v1/discounts/discounts.module';
+import { OrdersModule } from './api/v1/orders/orders.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { DiscountsModule } from './api/v1/discounts/discounts.module';
     CarsModule,
     CarReviewsModule,
     DiscountsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [

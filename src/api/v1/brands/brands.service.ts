@@ -69,16 +69,11 @@ export class BrandsService {
   /**
    * Retrieves a single brand by its ID.
    * @param id The ID of the brand to retrieve.
-   * @param includeRelatedData A flag to include related data (currently not implemented).
    * @returns The requested brand.
    * @throws NotFoundException if the brand is not found.
    */
-  async findOne(
-    id: number,
-    includeRelatedData: boolean = false,
-  ): Promise<Brand> {
+  async findOne(id: number): Promise<Brand> {
     try {
-      // TODO: if (includeRelatedData) attach all cars related to this brand to the response
       const brand: Brand = await this.brandRepository.findOneOrFail({
         where: { brand_id: id },
       });

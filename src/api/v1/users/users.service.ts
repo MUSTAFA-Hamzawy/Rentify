@@ -73,11 +73,13 @@ export class UsersService {
         where: { email: loginData.email },
         select: [
           'user_id',
+          'full_name',
           'email',
           'password',
           'verification_status',
           'account_disabled',
           'is_admin',
+          'preferred_currency',
         ],
       });
 
@@ -96,6 +98,8 @@ export class UsersService {
             email: user.email,
             user_id: user.user_id,
             role: user.is_admin ? 'admin' : 'user',
+            fullName: user.full_name,
+            preferredCurrency: user.preferred_currency,
           },
           1,
         ),
@@ -107,6 +111,8 @@ export class UsersService {
             email: user.email,
             user_id: user.user_id,
             role: user.is_admin ? 'admin' : 'user',
+            fullName: user.full_name,
+            preferredCurrency: user.preferred_currency,
           },
           2,
         ),
@@ -147,7 +153,13 @@ export class UsersService {
    * @returns The generated JWT token.
    */
   generateToken(
-    userData: { email: string; user_id: number; role: string },
+    userData: {
+      email: string;
+      fullName: string;
+      user_id: number;
+      role: string;
+      preferredCurrency: string;
+    },
     tokenType: number = 1,
   ): string {
     const SECRET_KEY =
@@ -159,7 +171,13 @@ export class UsersService {
         ? process.env.ACCESS_TOKEN_EXPIRED_TIME
         : process.env.REFRESH_TOKEN_EXPIRED_TIME;
     return jwt.sign(
-      { email: userData.email, user_id: userData.user_id, role: userData.role },
+      {
+        email: userData.email,
+        user_id: userData.user_id,
+        role: userData.role,
+        fullName: userData.fullName,
+        preferredCurrency: userData.preferredCurrency,
+      },
       SECRET_KEY,
       { expiresIn: EXPIRED_TIME },
     );
@@ -288,8 +306,13 @@ export class UsersService {
     try {
       // Extract the token
       refreshToken = refreshToken.split('=')[1];
-      const userDecodedData: { user_id: number; email: string; role: string } =
-        jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_KEY);
+      const userDecodedData: {
+        user_id: number;
+        email: string;
+        role: string;
+        fullName: string;
+        preferredCurrency: string;
+      } = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_KEY);
       return userDecodedData;
     } catch (error) {
       throw new UnauthorizedException('This token is invalid.');
