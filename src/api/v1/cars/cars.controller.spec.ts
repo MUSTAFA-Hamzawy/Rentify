@@ -10,16 +10,18 @@ import * as request from 'supertest';
 import { ROOT_PATH } from '../../../config/app.config';
 import { Brand } from '../brands/entities/brand.entity';
 import { Location } from '../locations/entities/location.entity';
+import * as bcrypt from 'bcrypt';
+import { faker } from '@faker-js/faker';
 
 const resource: string = 'cars';
-const testingEmail: string = 'test@gmail.com';
+const testingEmail: string = faker.internet.email();
 const testingPassword: string = 'Open@1234';
 const register: string = `/users/register`;
 const login: string = `/users/login`;
 let token: string = '';
 
 let testingBrandID = null;
-let testingBrandName = 'testing brand name';
+let testingBrandName = faker.string.alpha(10);
 let testingLocationID = null;
 let testingCarID = null;
 describe('CarsController Testing', () => {
@@ -35,6 +37,21 @@ describe('CarsController Testing', () => {
 
     app = module.createNestApplication();
     await app.init();
+
+    // creating admin email for testing purposes
+    await AppDataSource.getRepository(User).save({
+      full_name: 'eTe account',
+      email: testingEmail,
+      preferred_currency: 'USD',
+      password: await bcrypt.hash(
+        testingPassword,
+        parseInt(process.env.PASSWORD_HASH_SALT_ROUND),
+      ),
+      confirm_password: testingPassword,
+      phone_number: '201121366555',
+      is_admin: true,
+      verification_status: true,
+    });
   });
 
   afterAll(async () => {
@@ -49,24 +66,6 @@ describe('CarsController Testing', () => {
   });
 
   describe('creating some resources for testing purposes', () => {
-    it('registering admin email', async () => {
-      const response: any = await request(app.getHttpServer())
-        .post(register)
-        .send({
-          full_name: 'Mustafa Mahmoud',
-          email: testingEmail,
-          preferred_currency: 'USD',
-          password: testingPassword,
-          confirm_password: testingPassword,
-          phone_number: '201121366555',
-          verification_status: true,
-          is_admin: true,
-        });
-
-      expect(response).toBeDefined();
-      expect(response.status).toBe(HttpStatus.CREATED);
-    });
-
     it('login', async () => {
       const res: any = await request(app.getHttpServer()).post(login).send({
         email: testingEmail,

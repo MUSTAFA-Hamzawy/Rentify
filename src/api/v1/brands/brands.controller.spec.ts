@@ -9,11 +9,13 @@ import { AppDataSource } from '../../../database/data-source';
 import { User } from '../users/entities/user.entity';
 
 import { ROOT_PATH } from '../../../config/app.config';
+import * as bcrypt from 'bcrypt';
+import { faker } from '@faker-js/faker';
 
 const resource: string = 'brands';
-const testingEmail: string = 'test@gmail.com';
+const testingEmail: string = faker.internet.email();
 const testingPassword: string = 'Open@1234';
-const testingBrandName = 'Kiaa';
+const testingBrandName = faker.string.alpha(10);
 const register: string = `/users/register`;
 const login: string = `/users/login`;
 
@@ -31,6 +33,21 @@ describe('BrandsController Testing', () => {
 
     app = module.createNestApplication();
     await app.init();
+
+    // creating admin email for testing purposes
+    await AppDataSource.getRepository(User).save({
+      full_name: 'eTe account',
+      email: testingEmail,
+      preferred_currency: 'USD',
+      password: await bcrypt.hash(
+        testingPassword,
+        parseInt(process.env.PASSWORD_HASH_SALT_ROUND),
+      ),
+      confirm_password: testingPassword,
+      phone_number: '201121366555',
+      is_admin: true,
+      verification_status: true,
+    });
   });
 
   afterAll(async () => {
@@ -41,25 +58,7 @@ describe('BrandsController Testing', () => {
     await app.close();
   });
 
-  describe('creating new admin user for testing purposes', () => {
-    it('registering', async () => {
-      const response: any = await request(app.getHttpServer())
-        .post(register)
-        .send({
-          full_name: 'Mustafa Mahmoud',
-          email: testingEmail,
-          preferred_currency: 'USD',
-          password: testingPassword,
-          confirm_password: testingPassword,
-          phone_number: '201121366555',
-          verification_status: true,
-          is_admin: true,
-        });
-
-      expect(response).toBeDefined();
-      expect(response.status).toBe(HttpStatus.CREATED);
-    });
-
+  describe('login admin user', () => {
     it('login', async () => {
       const res: any = await request(app.getHttpServer()).post(login).send({
         email: testingEmail,

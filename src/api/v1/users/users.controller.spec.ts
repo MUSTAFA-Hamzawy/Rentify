@@ -7,6 +7,8 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { AppModule } from '../../../app.module';
 import * as request from 'supertest';
 import { AppDataSource } from '../../../database/data-source';
+import { faker } from '@faker-js/faker';
+import * as bcrypt from 'bcrypt';
 
 const resource: string = 'users';
 const register: string = `/${resource}/register`;
@@ -15,7 +17,8 @@ const profile: string = `/${resource}/profile`;
 const logout: string = `/${resource}/logout`;
 const password: string = `/${resource}/password`;
 
-const testingEmail: string = 'admin.test@gmail.com';
+const testingEmail: string = faker.internet.email();
+const adminTestingEmail: string = faker.internet.email();
 const testingPassword: string = 'Open@1234';
 
 let token: string = '';
@@ -33,10 +36,24 @@ describe('UsersController Testing', () => {
     app = module.createNestApplication();
     app.useGlobalInterceptors(app.get(ResponseInterceptor));
     await app.init();
+
+    // creating admin email
+    await AppDataSource.getRepository(User).save({
+      full_name: 'eTe account',
+      email: adminTestingEmail,
+      preferred_currency: 'USD',
+      password: await bcrypt.hash(
+        testingPassword,
+        parseInt(process.env.PASSWORD_HASH_SALT_ROUND),
+      ),
+      confirm_password: testingPassword,
+      phone_number: '201121366555',
+      is_admin: true,
+      verification_status: true,
+    });
   });
 
   afterAll(async () => {
-    await AppDataSource.getRepository(User).delete({ email: testingEmail });
     await app.close();
   });
 
@@ -51,7 +68,6 @@ describe('UsersController Testing', () => {
           password: testingPassword,
           confirm_password: testingPassword,
           phone_number: '201121366555',
-          verification_status: true,
         });
 
       expect(response).toBeDefined();
@@ -60,9 +76,10 @@ describe('UsersController Testing', () => {
 
     it('should return error if email is already registered', async () => {
       // First register the user
+      const randEmail = faker.internet.email();
       await request(app.getHttpServer()).post(register).send({
         full_name: 'Mustafa Mahmoud',
-        email: testingEmail,
+        email: randEmail,
         preferred_currency: 'USD',
         password: testingPassword,
         confirm_password: testingPassword,
@@ -72,7 +89,7 @@ describe('UsersController Testing', () => {
       // Try to register the same user again
       const res = await request(app.getHttpServer()).post(register).send({
         full_name: 'Mustafa Mahmoud',
-        email: testingEmail,
+        email: randEmail,
         preferred_currency: 'USD',
         password: testingPassword,
         confirm_password: testingPassword,
@@ -163,10 +180,9 @@ describe('UsersController Testing', () => {
   describe('UsersController: Login', () => {
     it('should log in successfully with valid credentials', async () => {
       const res: any = await request(app.getHttpServer()).post(login).send({
-        email: testingEmail,
+        email: adminTestingEmail,
         password: testingPassword,
       });
-
       expect(res.status).toBe(HttpStatus.OK);
 
       token = res.body.data.accessToken;
@@ -174,7 +190,7 @@ describe('UsersController Testing', () => {
 
     it('should return error for incorrect password', async () => {
       const res = await request(app.getHttpServer()).post(login).send({
-        email: testingEmail,
+        email: adminTestingEmail,
         password: 'wrongpassword',
       });
 
@@ -200,7 +216,7 @@ describe('UsersController Testing', () => {
 
     it('should return error if password is missing', async () => {
       const res = await request(app.getHttpServer()).post(login).send({
-        email: testingEmail,
+        email: adminTestingEmail,
       });
 
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
@@ -223,7 +239,7 @@ describe('UsersController Testing', () => {
 
       expect(res.status).toBe(HttpStatus.OK);
 
-      expect(res.body.data.data).toHaveProperty('email', testingEmail);
+      expect(res.body.data.data).toHaveProperty('email', adminTestingEmail);
       expect(res.body.data.data).toHaveProperty('full_name');
       expect(res.body.data.data).toHaveProperty('user_id');
     });
