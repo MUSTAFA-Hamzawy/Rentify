@@ -3,6 +3,8 @@ import { ROOT_PATH } from '../../config/app.config';
 import { formatDistanceToNow } from 'date-fns';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as CC from 'currency-converter-lt';
+import { number } from 'joi';
 
 /**
  * This class contains helper methods for various operations.
@@ -64,11 +66,27 @@ export class Helpers {
       : null;
   }
 
-  public static ResponseFormat(
-    message: string = 'Request processed successfully',
-    data = {},
-    statusCode: number = HttpStatus.OK,
-  ) {
-    return { status: statusCode, message: message, data: data };
+  /**
+   * Converts a given amount from one currency to another using real-time exchange rates.
+   *
+   * @param {string} from - The currency code to convert from (e.g., "USD").
+   * @param {string} to - The currency code to convert to (e.g., "EGP").
+   * @param {number} amount - The amount of money to convert.
+   * @returns {Promise<string> | Promise<number>} - Returns the converted amount as a number if the currencies are different,
+   * or the original amount if the "from" and "to" currencies are the same.
+   * @throws {InternalServerErrorException} - Throws an error if the currency conversion fails.
+   */
+  public static async convertCurrency(
+    from: string,
+    to: string,
+    amount: number,
+  ): Promise<Promise<string> | Promise<number>> {
+    if (from == to) return amount;
+    try {
+      return await new CC({ from, to, amount }).convert();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
+
 }
