@@ -82,13 +82,19 @@ export class CarsService {
       if (page <= 0 || limit <= 0)
         throw new BadRequestException('Invalid request params.');
 
-      const query = await this.carRepository
+      const query = this.carRepository
         .createQueryBuilder('cars')
         .leftJoinAndSelect('cars.brand', 'brand')
         .leftJoinAndSelect('cars.pickup_location', 'pickup_location')
         .leftJoinAndSelect('cars.dropoff_location', 'dropoff_location')
         .leftJoinAndSelect('cars.policies', 'policies')
         .leftJoinAndSelect('cars.images', 'images')
+        .leftJoinAndSelect(
+          'cars.discounts',
+          'discounts',
+          'discounts.end_date > :today',
+          { today: new Date().toISOString() },
+        )
         .select([
           'cars.car_id',
           'cars.car_name',
@@ -97,6 +103,7 @@ export class CarsService {
           'cars.created_at',
           'cars.updated_at',
           'images.image_path',
+          'discounts.discount_percentage',
         ])
         .skip((page - 1) * limit)
         .take(limit);

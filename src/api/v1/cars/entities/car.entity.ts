@@ -14,6 +14,7 @@ import { CarPolicy } from './car-policies.entity';
 import { CarImage } from './car-images.entity';
 import { CarReview } from '../../car-reviews/entities/car-review.entity';
 import { Discount } from '../../discounts/entities/discount.entity';
+import { Order } from '../../orders/entities/order.entity';
 
 @Entity('cars')
 export class Car {
@@ -128,4 +129,7 @@ export class Car {
 
   @OneToMany(() => Discount, discount => discount.car)
   discounts: Discount[];
+
+  @OneToMany(() => Order, order => order.user)
+  orders: Order[];
 }
