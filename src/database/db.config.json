@@ -27,7 +27,7 @@
       "username": "postgres",
       "password": "open1234",
       "database": "rentify_prod",
-      "host": "postgres-db",
+      "host": "localhost",
       "type": "postgres",
       "port": "5432",
       "migrations": ["src/migrations/**/*{.ts,.js}"],
