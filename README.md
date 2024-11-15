@@ -125,7 +125,6 @@ then, Move to the project directory
       npm install
       npm run migration:run
       npm run seed
-      npm start
   ```
   
   4. Start Running
