@@ -113,7 +113,7 @@ Set up and run the application using Docker containers
   ```sh
       docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d
   ```
-
+NOTE: the container will run on port 4000, you can adjust it from the file docker-compose.yml
 #### Manual Setup
   
   1. Create a new database
