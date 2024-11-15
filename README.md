@@ -4,7 +4,7 @@
 Rentify is a backend API for a car rental system, built using NestJS and PostgreSQL.
 <br/>
 <br/>
-<a href="https://documenter.getpostman.com/view/17672386/2sAYBPkENB" target="_blank">API Docs .</a>  
+<a href="https://app.swaggerhub.com/apis-docs/MustafaHamzawy/Rentify/1.0.0" target="_blank">API Docs .</a>  
 <a href="https://github.com/MUSTAFA-Hamzawy/Rentify/issues/new?labels=bug&amp;template=bug_report.md" target="_blank">Report Bug .</a>
 <a href="https://github.com/MUSTAFA-Hamzawy/Rentify/issues/new?labels=enhancement&amp;&template=feature_request.md" target="_blank">Request Feature</a>
 </p>
@@ -43,7 +43,9 @@ Rentify is a backend API for a car rental system built with NestJS and PostgreSQ
 
 ## API Documentation
 
-<a href="https://documenter.getpostman.com/view/17672386/2sAYBPkENB" target="_blank">Click here to explore API Docs.</a>
+<a href="https://documenter.getpostman.com/view/17672386/2sAYBPkENB" target="_blank"> API Docs [Postman] </a>
+
+<a href="https://app.swaggerhub.com/apis-docs/MustafaHamzawy/Rentify/1.0.0" target="_blank"> API Docs [Swagger] </a>
 
 
 ## Built With
