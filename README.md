@@ -109,12 +109,10 @@ then, Move to the project directory
 #### Second : You can proceed using docker or the manual setup
 #### Using Docker
 
-  1. Set up and run the application using Docker containers
+Set up and run the application using Docker containers
   ```sh
       docker-compose -f docker-compose.yml up -f docker-compose-prod.yml up -d  --build
   ```
-  
-  2. API Docs: localhost:4000/api/v1/api-docs
 
 #### Manual Setup
   
@@ -133,8 +131,6 @@ then, Move to the project directory
   ```sh
       npm start
   ```
-
-  5. API Docs: localhost:port/api/v1/api-docs
 
 ## Contributing
 
