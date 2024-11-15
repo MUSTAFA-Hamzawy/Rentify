@@ -75,9 +75,15 @@ To get a local copy up and running follow these simple steps.
 
 ### Installation
 
-Move to the project directory
+### First : Clone the repo
+  
+  ```sh
+      git clone https://github.com/MUSTAFA-Hamzawy/Rentify.git
+  ```
 
-#### First : Make your own copy of the .env file
+then, Move to the project directory
+
+#### Second : Make your own copy of the .env file
 
 1. Create a copy of the `.env.example` file and name it `.env`:
    
@@ -107,15 +113,10 @@ Move to the project directory
   2. API Docs: locahost:4000/api/v1/api-docs
 
 #### Manual Setup
-  1. Clone the repo
   
-  ```sh
-      git clone https://github.com/MUSTAFA-Hamzawy/Rentify.git
-  ```
-  
-  2. Create a new database
-  3. setup "db.config.json" file based on your db configurations 
-  4. Install dependecies & seeding database
+  1. Create a new database
+  2. setup "db.config.json" file based on your db configurations 
+  3. Install dependecies & seeding database
   
   ```sh
       npm install -g @nestjs/cli
@@ -125,12 +126,12 @@ Move to the project directory
       npm start
   ```
   
-  5. Start Running
+  4. Start Running
   ```sh
       npm start
   ```
 
-  6. API Docs: locahost:port/api/v1/api-docs
+  5. API Docs: locahost:port/api/v1/api-docs
 
 ## Contributing
 
