@@ -8,7 +8,6 @@
       "port": "5432",
       "migrations": ["src/migrations/**/*{.ts,.js}"],
       "migrationsTableName": "migrations",
-      "seederStorageTableName": "sequelize_seeders",
       "cli": {
       "migrationsDir": "src/database/migrations"
         }
