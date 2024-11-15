@@ -101,6 +101,8 @@ then, Move to the project directory
    - JWT_REFRESH_TOKEN_KEY: Generate another secure hexadecimal key using the same command.
     
    - OTP_SECRET_KEY: Generate yet another secure hexadecimal key using the same command.
+   - SMTP_MAIL : write your smtp email that will be used to send emails for users
+   - APP_PASSWORD : you can generate app passwrod for gmail account from here : https://knowledge.workspace.google.com/kb/how-to-create-app-passwords-000009237
 
 #### Second : You can proceed using docker or the manual setup
 #### Using Docker
