@@ -117,7 +117,7 @@ then, Move to the project directory
 #### Manual Setup
   
   1. Create a new database
-  2. setup "db.config.json" file based on your db configurations 
+  2. setup "src/database/db.config.json" file based on your db configurations 
   3. Install dependecies & seeding database
   
   ```sh
