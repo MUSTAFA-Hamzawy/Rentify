@@ -112,7 +112,7 @@ then, Move to the project directory
       docker-compose -f docker-compose.yml up -f docker-compose-prod.yml up -d  --build
   ```
   
-  2. API Docs: locahost:4000/api/v1/api-docs
+  2. API Docs: localhost:4000/api/v1/api-docs
 
 #### Manual Setup
   
@@ -132,7 +132,7 @@ then, Move to the project directory
       npm start
   ```
 
-  5. API Docs: locahost:port/api/v1/api-docs
+  5. API Docs: localhost:port/api/v1/api-docs
 
 ## Contributing
 
