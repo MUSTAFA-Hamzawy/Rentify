@@ -111,7 +111,7 @@ then, Move to the project directory
 
 Set up and run the application using Docker containers
   ```sh
-      docker-compose -f docker-compose.yml up -f docker-compose-prod.yml up -d  --build
+      docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d
   ```
 
 #### Manual Setup
