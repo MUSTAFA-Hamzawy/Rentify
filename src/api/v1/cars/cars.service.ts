@@ -156,6 +156,7 @@ export class CarsService {
           'cars.updated_at',
           'cars.year',
           'cars.fuel_type',
+          'cars.is_available',
           'brand.brand_id',
           'brand.brand_logo',
           'pickup_location.location_id',

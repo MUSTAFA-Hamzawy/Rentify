@@ -39,8 +39,8 @@ export class OrdersService {
     startDate: Date,
     endDate: Date,
   ): Promise<number> {
-    const rentalInterval: number = endDate.getTime() - startDate.getTime();
-    return Math.ceil(rentalInterval / (24 * 60 * 60 * 1000));
+    const rentalInterval: number = (endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000);
+    return rentalInterval > 0 ? Math.ceil(rentalInterval) : 1;
   }
 
   async create(
@@ -76,7 +76,7 @@ export class OrdersService {
       if (!car) throw new NotFoundException('Car Not found or not available');
 
       // calculate total price
-      const pickupDate: Date = new Date(createOrderDto.pickup_date);
+      const pickupDate: Date = new Date();
       const dropOffDate: Date = new Date(createOrderDto.dropoff_date);
       const rentalInterval: number = await this.getRentalInterval(
         pickupDate,
@@ -133,7 +133,7 @@ export class OrdersService {
       if (page <= 0 || limit <= 0)
         throw new BadRequestException('Invalid request params.');
 
-      const orders: any = await this.orderRepository.find({
+      return await this.orderRepository.find({
         skip: (page - 1) * limit,
         take: limit,
       });
@@ -243,7 +243,7 @@ export class OrdersService {
     try {
       const order: Order = await this.orderRepository.findOneOrFail({
         where: { order_id: id },
-        select: ['order_id', 'order_status', 'user_id'],
+        select: ['order_id', 'order_status', 'user_id', 'car_id'],
       });
 
       // check that the order owner who is requesting to cancel
@@ -252,7 +252,7 @@ export class OrdersService {
           'You are not allowed to cancel this order.',
         );
 
-      await this.carRepository.findOneOrFail({
+      const car: Car = await this.carRepository.findOneOrFail({
         where: { car_id: order.car_id },
         select: ['car_id', 'is_available'],
       });
@@ -268,10 +268,7 @@ export class OrdersService {
       });
 
       // make the car available
-      await this.carRepository.update(
-        { car_id: order.car_id },
-        { is_available: true },
-      );
+      await this.carRepository.update({car_id: car.car_id}, {is_available: true});
     } catch (error) {
       if (error instanceof EntityNotFoundError)
         throw new NotFoundException('Order not found');
