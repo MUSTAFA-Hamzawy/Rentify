@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
-
+import * as bcrypt from 'bcrypt';
 import { User } from '../../api/v1/users/entities/user.entity';
 import { Brand } from '../../api/v1/brands/entities/brand.entity';
 import { Location } from '../../api/v1/locations/entities/location.entity';
@@ -22,6 +22,21 @@ export class MainSeeder implements Seeder {
     const userFactory = factoryManager.get(User);
     console.log('seeding users...');
     await userFactory.saveMany(this.USERS_COUNT);
+
+    // admin
+    console.log('Seeding admin...');
+    await dataSource.getRepository(User).save({
+      full_name: 'Admin Account',
+      email: 'admin@gmail.com',
+      preferred_currency: 'USD',
+      password: await bcrypt.hash(
+        'Open@@1234',
+        parseInt(process.env.PASSWORD_HASH_SALT_ROUND),
+      ),
+      phone_number: '201121366555',
+      is_admin: true,
+      verification_status: true,
+    });
 
     // brands
     const brandFactory = factoryManager.get(Brand);
