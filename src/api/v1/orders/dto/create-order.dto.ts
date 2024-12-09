@@ -12,13 +12,5 @@ export class CreateOrderDto {
   @IsTodayOrAfter()
   @IsDateString()
   @IsNotEmpty()
-  pickup_date: string;
-
-  @TrimString()
-  @IsAfterDate('pickup_date', {
-    message: 'Drop-off date must be after Pickup date',
-  })
-  @IsDateString()
-  @IsNotEmpty()
   dropoff_date: string;
 }

@@ -1,99 +1,150 @@
+<br/>
+<h1 align="center">Rentify</h1>
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+Rentify is a backend API for a car rental system, built using NestJS and PostgreSQL.
+<br/>
+<br/>
+<a href="https://app.swaggerhub.com/apis-docs/MustafaHamzawy/Rentify/1.0.0" target="_blank">API Docs .</a>  
+<a href="https://github.com/MUSTAFA-Hamzawy/Rentify/issues/new?labels=bug&amp;template=bug_report.md" target="_blank">Report Bug .</a>
+<a href="https://github.com/MUSTAFA-Hamzawy/Rentify/issues/new?labels=enhancement&amp;&template=feature_request.md" target="_blank">Request Feature</a>
 </p>
+</div>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<br/>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table Of Contents
 
-## Description
+- [About The Project](#about-the-project)
+- [Features](#features)
+- [API Documentation](#api-documentation)
+- [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+    - [Using Docker](#using-docker)
+    - [Manual Setup](#manual-setup)
+- [Contributing](#contributing)
+  - [Creating A Pull Request](#creating-a-pull-request)
+- [License](#license)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## About The Project
 
-## Project setup
+Rentify is a backend API for a car rental system built with NestJS and PostgreSQL, inspired by the RentX app. It provides essential endpoints for managing car rentals, focusing on robust features like user management, authentication, and rental operations. Rentify is designed to streamline the backend processes required for a modern car rental service.
 
-```bash
-$ npm install
-```
+## Features
+- <strong>User Management:</strong> Handles user and admin accounts, supporting creation, updates, and role-based access.
+- <strong>Authentication:</strong> Secures the API with JWT-based access and refresh token mechanisms.
+- <strong>Brands:</strong> Provides endpoints to manage and retrieve car brands for easy categorization and filtering.
+- <strong>Car Management:</strong> Includes CRUD operations for cars, managing details like availability, pricing, and specifications.
+- <strong>Locations:</strong> Manages pickup and dropoff points for rented cars, offering flexibility for users.
+- <strong>Discounts:</strong> Enables management of promotional discounts to enhance customer engagement.
+- <strong>Orders:</strong> Handles rental bookings, including order creation, status tracking, and related operations.
 
-## Compile and run the project
 
-```bash
-# development
-$ npm run start
+## API Documentation
 
-# watch mode
-$ npm run start:dev
+<a href="https://documenter.getpostman.com/view/17672386/2sAYBPkENB" target="_blank"> API Docs [Postman] </a>
 
-# production mode
-$ npm run start:prod
-```
+<a href="https://app.swaggerhub.com/apis-docs/MustafaHamzawy/Rentify/1.0.0" target="_blank"> API Docs [Swagger] </a>
 
-## Run tests
 
-```bash
-# unit tests
-$ npm run test
+## Built With
 
-# e2e tests
-$ npm run test:e2e
+* NodeJS
+* NestJS
+* TypeScript
+* PostgreSQL
+* TypeORM
+* JWT (JSON Web Tokens)
+* bcryptjs
+* multer
+* Jest
+* npm
+* Postman
+* Swagger
+* Docker
 
-# test coverage
-$ npm run test:cov
-```
+## Getting Started
 
-## Deployment
+To get a local copy up and running follow these simple steps.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Prerequisites
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+* NodeJS
+* npm
+* PostgreSQL
+* Docker (optional)
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+### Installation
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### First : Clone the repo
+  
+  ```sh
+      git clone https://github.com/MUSTAFA-Hamzawy/Rentify.git
+  ```
 
-## Resources
+then, Move to the project directory
 
-Check out a few resources that may come in handy when working with NestJS:
+#### Second : Make your own copy of the .env file
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+1. Create a copy of the `.env.example` file and name it `.env`:
+   
+   ```sh
+       cp .env.example .env
+    ```
+   
+2. Update the .env file with the following configurations:
+   - JWT_ACCESS_TOKEN_KEY: Generate a secure hexadecimal key using this command ( or use any way you prefer )
+     
+   ```sh
+       openssl rand -hex 32
+    ```
+   
+   - JWT_REFRESH_TOKEN_KEY: Generate another secure hexadecimal key using the same command.
+    
+   - OTP_SECRET_KEY: Generate yet another secure hexadecimal key using the same command.
+   - SMTP_MAIL : write your smtp email that will be used to send emails for users
+   - APP_PASSWORD : you can generate app passwrod for gmail account from here : https://knowledge.workspace.google.com/kb/how-to-create-app-passwords-000009237
 
-## Support
+#### Second : You can proceed using docker or the manual setup
+#### Using Docker
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Set up and run the application using Docker containers
+  ```sh
+      docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d
+  ```
+NOTE: the container will run on port 4000, you can adjust it from the file docker-compose.yml
+#### Manual Setup
+  
+  1. Create a new database
+  2. setup "src/database/db.config.json" file based on your db configurations 
+  3. Install dependecies & seeding database
+  
+  ```sh
+      npm install -g @nestjs/cli
+      npm install
+      npm run migration:run
+      npm run seed
+  ```
+  
+  4. Start Running
+  ```sh
+      npm start
+  ```
 
-## Stay in touch
+## Contributing
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+- If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/MUSTAFA-Hamzawy/Rentify/issues/new) to discuss it, or
+-  Directly create a pull request after you edit the files with necessary changes.
+
+### Creating A Pull Request
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+See [LICENSE](https://github.com/MUSTAFA-Hamzawy/Rentify/blob/main/LICENSE) for more information.

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
-
+import * as bcrypt from 'bcrypt';
 import { User } from '../../api/v1/users/entities/user.entity';
 import { Brand } from '../../api/v1/brands/entities/brand.entity';
 import { Location } from '../../api/v1/locations/entities/location.entity';

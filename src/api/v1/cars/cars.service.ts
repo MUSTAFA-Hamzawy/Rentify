@@ -140,7 +140,6 @@ export class CarsService {
    */
   async findOne(id: number, useCache: boolean = true) {
     try {
-
       let car = useCache ? await this.redisService.zGet('cars', id) : null;
       if (car) return plainToInstance(Car, JSON.parse(car));
       else{
