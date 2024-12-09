@@ -10,6 +10,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { Brand } from './entities/brand.entity';
 import { Helpers } from '../../../common/helpers/helpers.class';
+import { RedisService } from '../../../common/modules/redis/redis.service';
+import { plainToInstance } from 'class-transformer';
 
 /**
  * Service for managing brand-related operations.
@@ -19,6 +21,7 @@ export class BrandsService {
   constructor(
     @InjectRepository(Brand)
     private readonly brandRepository: Repository<Brand>,
+    private readonly redisService: RedisService
   ) {}
 
   /**
@@ -32,11 +35,16 @@ export class BrandsService {
     brand_logo: string;
   }): Promise<Brand> {
     try {
-      const brand: Brand = new Brand();
+      let brand: Brand = new Brand();
       brand.brand_name = brandData.brandDto.brand_name.toLowerCase();
       brand.brand_logo = brandData.brand_logo;
       await this.brandRepository.save(brand);
-      return this.findOne(brand.brand_id);
+      brand = await this.findOne(brand.brand_id);
+
+      // add it to cache memory
+      await this.redisService.zadd('brands', brand.brand_id, JSON.stringify(brand));
+
+      return brand;
     } catch (error) {
       if (error.code === '23505') {
         throw new ConflictException('Brand with this name already exists');
@@ -55,6 +63,10 @@ export class BrandsService {
     try {
       if (page <= 0 || limit <= 0)
         throw new BadRequestException('Invalid request params.');
+
+      const cachedBrands = await this.redisService.zRange('brands', (page - 1) * limit, page * limit - 1);
+      if (cachedBrands.length > 0) return cachedBrands.map((brand) => plainToInstance(Brand, JSON.parse(brand)));
+
       return await this.brandRepository.find({
         skip: (page - 1) * limit,
         take: limit,
@@ -69,17 +81,23 @@ export class BrandsService {
   /**
    * Retrieves a single brand by its ID.
    * @param id The ID of the brand to retrieve.
+   * @param useCache : a flag to determine whether we need to use cache memory or not.
    * @returns The requested brand.
    * @throws NotFoundException if the brand is not found.
    */
-  async findOne(id: number): Promise<Brand> {
+  async findOne(id: number, useCache: boolean = true): Promise<Brand> {
     try {
-      const brand: Brand = await this.brandRepository.findOneOrFail({
-        where: { brand_id: id },
-      });
-      brand.brand_name = Helpers.UCFirst(brand.brand_name);
-      brand.brand_logo = Helpers.getStaticFilePublicPath(brand.brand_logo);
-      return brand;
+      const brand = useCache ? await this.redisService.zGet('brands', id) : null;
+      if (brand) return plainToInstance(Brand, JSON.parse(brand));
+      else{
+        const brand: Brand = await this.brandRepository.findOneOrFail({
+          where: { brand_id: id },
+        });
+        brand.brand_name = Helpers.UCFirst(brand.brand_name);
+        brand.brand_logo = Helpers.getStaticFilePublicPath(brand.brand_logo);
+        await this.redisService.zadd('brands', brand.brand_id, JSON.stringify(brand));
+        return brand;
+      }
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
         throw new NotFoundException('Brand is not found.');
@@ -117,7 +135,8 @@ export class BrandsService {
       };
 
       await this.brandRepository.update(brandOldData.brand_id, updateObj);
-      return await this.findOne(brandOldData.brand_id);
+      await this.redisService.zRemoveElementByScore('brands', brandOldData.brand_id);
+      return await this.findOne(brandOldData.brand_id, false);
     } catch (error) {
       if (error.code === '23505')
         throw new ConflictException('Brand with this name already exists');
@@ -137,6 +156,7 @@ export class BrandsService {
     try {
       await this.findOne(id);
       await this.brandRepository.delete(id);
+      await this.redisService.zRemoveElementByScore('brands', id);
     } catch (error) {
       if (error instanceof NotFoundException)
         throw new NotFoundException('Brand is not found.');
