@@ -121,6 +121,29 @@ export class RedisService implements OnModuleDestroy {
   }
 
   /**
+   * Updates a member in a Redis sorted set by removing it with its current score
+   * and adding it back with the updated score and data.
+   * The operation is performed atomically using Redis transactions (MULTI/EXEC).
+   *
+   * @param key - The key of the Redis sorted set.
+   * @param score - The current score of the member to be updated.
+   * @param newData - The new data (usually a serialized string) to be added to the sorted set with the new score.
+   * @returns A promise that resolves when the operation is completed successfully.
+   * @throws {Error} Throws an error if the operation fails at any point during the transaction.
+   */
+  async zUpdateByScore(key: string, score: number, newData: string): Promise<void> {
+    try {
+      // use redis multi to ensure that it will be an atomic operation
+      const multi =  this.redisClient.multi();
+      multi.zremrangebyscore(key, score, score);
+      multi.zadd(key, score, newData);
+      await multi.exec();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Removes a member from a sorted set.
    * 
    * @param {string} key - The Redis key.
