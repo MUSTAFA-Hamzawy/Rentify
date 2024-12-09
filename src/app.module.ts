@@ -27,6 +27,7 @@ import { CarsModule } from './api/v1/cars/cars.module';
 import { CarReviewsModule } from './api/v1/car-reviews/car-reviews.module';
 import { DiscountsModule } from './api/v1/discounts/discounts.module';
 import { OrdersModule } from './api/v1/orders/orders.module';
+import { RedisModule } from './common/modules/redis/redis.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { OrdersModule } from './api/v1/orders/orders.module';
     CarReviewsModule,
     DiscountsModule,
     OrdersModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [
