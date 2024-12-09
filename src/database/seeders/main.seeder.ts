@@ -7,6 +7,7 @@ import { Brand } from '../../api/v1/brands/entities/brand.entity';
 import { Location } from '../../api/v1/locations/entities/location.entity';
 import { Car } from '../../api/v1/cars/entities/car.entity';
 import { CarImage } from '../../api/v1/cars/entities/car-images.entity';
+import * as bcrypt from 'bcrypt';
 
 export class MainSeeder implements Seeder {
   private readonly USERS_COUNT: number = 100;
@@ -22,6 +23,23 @@ export class MainSeeder implements Seeder {
     const userFactory = factoryManager.get(User);
     console.log('seeding users...');
     await userFactory.saveMany(this.USERS_COUNT);
+
+    // admin account
+    console.log('Adding admin account');
+    const userRepo = dataSource.getRepository(User);
+    await userRepo.save(userRepo.create({
+      full_name: 'Admin Account',
+      email: 'admin@gmail.com',
+      preferred_currency: 'USD',
+      password: await bcrypt.hash(
+        'Open@@1234',
+        parseInt(process.env.PASSWORD_HASH_SALT_ROUND),
+      ),
+      is_admin: true,
+      is_blocked: false,
+      verification_status: true,
+      created_at: new Date(),
+    }));
 
     // brands
     const brandFactory = factoryManager.get(Brand);
