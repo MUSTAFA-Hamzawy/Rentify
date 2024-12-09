@@ -9,6 +9,9 @@ import { UpdateLocationDto } from './dto/update-location.dto';
 import { Location } from './entities/location.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, Repository } from 'typeorm';
+import { RedisService } from '../../../common/modules/redis/redis.service';
+import { plainToInstance } from 'class-transformer';
+import { Brand } from '../brands/entities/brand.entity';
 
 /**
  * Service for managing locations.
@@ -19,6 +22,7 @@ export class LocationsService {
   constructor(
     @InjectRepository(Location)
     private readonly locationsRepository: Repository<Location>,
+    private redisService: RedisService,
   ) {}
 
   /**
@@ -29,11 +33,16 @@ export class LocationsService {
    */
   async create(createLocationDto: CreateLocationDto): Promise<Location> {
     try {
-      return await this.locationsRepository.save({
+      const location = await this.locationsRepository.save({
         coordinates: createLocationDto.coordinates,
         address: createLocationDto.address,
         location_type: createLocationDto.location_type,
       });
+
+      // add it to cache memory
+      await this.redisService.zadd('locations', location.location_id, JSON.stringify(location));
+
+      return location;
     } catch (error) {
       throw new Error(error);
     }
@@ -50,6 +59,10 @@ export class LocationsService {
     try {
       if (page <= 0 || limit <= 0)
         throw new BadRequestException('Invalid request params.');
+
+      const cachedLocations = await this.redisService.zRange('locations', (page - 1) * limit, page * limit - 1);
+      if (cachedLocations.length > 0) return cachedLocations.map((location) => plainToInstance(Location, JSON.parse(location)));
+
       return await this.locationsRepository.find({
         skip: (page - 1) * limit,
         take: limit,
@@ -64,15 +77,24 @@ export class LocationsService {
   /**
    * Retrieves a single location by its ID.
    * @param id - The ID of the location to retrieve.
+   * @param useCache : a flag to determine whether we need to use cache memory or not.
    * @returns The Location entity.
    * @throws NotFoundException if the location is not found.
    * @throws Error if retrieval fails for other reasons.
    */
-  async findOne(id: number): Promise<Location> {
+  async findOne(id: number, useCache: boolean = true): Promise<Location> {
     try {
-      return await this.locationsRepository.findOneByOrFail({
-        location_id: id,
-      });
+      const location = useCache ? await this.redisService.zGet('locations', id) : null;
+      if (location) return plainToInstance(Location, JSON.parse(location));
+      else{
+        const location: Location = await this.locationsRepository.findOneByOrFail({
+          location_id: id,
+        });
+        await this.redisService.zadd('locations', location.location_id, JSON.stringify(location));
+        return location;
+      }
+
+
     } catch (error) {
       if (error instanceof EntityNotFoundError)
         throw new NotFoundException('Brand not found.');
@@ -105,6 +127,7 @@ export class LocationsService {
         : location.location_type;
       await this.locationsRepository.update(id, location);
       location.updated_at = new Date();
+      await this.redisService.zUpdateByScore('locations', location.location_id, JSON.stringify(location))
       return location;
     } catch (error) {
       if (error instanceof NotFoundException)
@@ -123,6 +146,7 @@ export class LocationsService {
     try {
       await this.findOne(id);
       await this.locationsRepository.delete(id);
+      await this.redisService.zRemoveElementByScore('locations', id);
     } catch (error) {
       if (error instanceof NotFoundException)
         throw new NotFoundException('Location is not found.');
