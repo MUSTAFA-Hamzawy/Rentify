@@ -12,6 +12,11 @@ import * as process from 'node:process';
         return new Redis({
           host: process.env.REDIS_HOST || 'localhost',
           port: parseInt(process.env.REDIS_PORT, 10) || 6379,
+          retryStrategy: (times) => {
+            // Add retry strategy
+            const delay = Math.min(times * 50, 2000);
+            return delay;
+          },
         });
       },
     },

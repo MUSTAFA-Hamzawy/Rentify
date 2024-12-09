@@ -9,13 +9,34 @@ services:
     depends_on:
       postgres-db:
         condition: service_healthy
+      redis:
+        condition: service_started
     restart: always
+    networks:
+      - my-net
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
   postgres-db:
     image: postgres:16
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
     container_name: rentify_db
+    networks:
+      - my-net
+  redis:
+    image: redis:7
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
+    container_name: rentify_cache_redis
+    restart: always
+    ports:
+      - '6380:6379'
+    networks:
+      - my-net
 
 volumes:
   pgdata:
+
+networks:
+  my-net:
