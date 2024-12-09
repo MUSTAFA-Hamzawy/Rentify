@@ -14,6 +14,8 @@ import { Location } from '../locations/entities/location.entity';
 import { CarPolicy } from './entities/car-policies.entity';
 import { CarImage } from './entities/car-images.entity';
 import { Helpers } from '../../../common/helpers/helpers.class';
+import { RedisService } from '../../../common/modules/redis/redis.service';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class CarsService {
@@ -27,6 +29,7 @@ export class CarsService {
     private readonly carPoliciesRepository: Repository<CarPolicy>,
     @InjectRepository(CarImage)
     private readonly carImagesRepository: Repository<CarImage>,
+    private readonly redisService: RedisService,
   ) {}
 
   /**
@@ -53,7 +56,9 @@ export class CarsService {
       createCarDto.rental_price =
         Math.floor(createCarDto.rental_price * 100) / 100;
 
-      return await this.carRepository.save(createCarDto);
+      const car: Car = await this.carRepository.save(createCarDto);
+      await this.redisService.zadd('cars', car.car_id, JSON.stringify(car));
+      return car;
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
         if (error.message.includes('Brand'))
@@ -129,59 +134,66 @@ export class CarsService {
   /**
    * Retrieves a specific car by its ID with all associated data.
    * @param id - Car ID.
+   * @param useCache : a flag to determine whether we need to use cache memory or not.
    * @throws NotFoundException if the car is not found.
    * @returns Car details including brand, location, policy, and image data.
    */
-  async findOne(id: number) {
+  async findOne(id: number, useCache: boolean = true) {
     try {
-      const car: any = await this.carRepository
-        .createQueryBuilder('cars')
-        .leftJoinAndSelect('cars.brand', 'brand')
-        .leftJoinAndSelect('cars.pickup_location', 'pickup_location')
-        .leftJoinAndSelect('cars.dropoff_location', 'dropoff_location')
-        .leftJoinAndSelect('cars.policies', 'policies')
-        .leftJoinAndSelect('cars.images', 'images')
-        .select([
-          'cars.car_id',
-          'cars.car_name',
-          'cars.rental_price',
-          'cars.minimum_rental_period',
-          'cars.transmission',
-          'cars.number_of_seats',
-          'cars.engine_size',
-          'cars.max_speed',
-          'cars.diesel_capacity',
-          'cars.body_type',
-          'cars.created_at',
-          'cars.updated_at',
-          'cars.year',
-          'cars.fuel_type',
-          'brand.brand_id',
-          'brand.brand_logo',
-          'pickup_location.location_id',
-          'pickup_location.address',
-          'pickup_location.coordinates',
-          'dropoff_location.location_id',
-          'dropoff_location.address',
-          'dropoff_location.coordinates',
-          'policies.policies_text',
-          'images.image_path',
-        ])
-        .where('cars.car_id = :id ', { id })
-        .getOne();
 
-      if (!car) throw new NotFoundException('Car not found.');
+      let car = useCache ? await this.redisService.zGet('cars', id) : null;
+      if (car) return plainToInstance(Car, JSON.parse(car));
+      else{
+        const car: any = await this.carRepository
+          .createQueryBuilder('cars')
+          .leftJoinAndSelect('cars.brand', 'brand')
+          .leftJoinAndSelect('cars.pickup_location', 'pickup_location')
+          .leftJoinAndSelect('cars.dropoff_location', 'dropoff_location')
+          .leftJoinAndSelect('cars.policies', 'policies')
+          .leftJoinAndSelect('cars.images', 'images')
+          .select([
+            'cars.car_id',
+            'cars.car_name',
+            'cars.rental_price',
+            'cars.minimum_rental_period',
+            'cars.transmission',
+            'cars.number_of_seats',
+            'cars.engine_size',
+            'cars.max_speed',
+            'cars.diesel_capacity',
+            'cars.body_type',
+            'cars.created_at',
+            'cars.updated_at',
+            'cars.year',
+            'cars.fuel_type',
+            'brand.brand_id',
+            'brand.brand_logo',
+            'pickup_location.location_id',
+            'pickup_location.address',
+            'pickup_location.coordinates',
+            'dropoff_location.location_id',
+            'dropoff_location.address',
+            'dropoff_location.coordinates',
+            'policies.policies_text',
+            'images.image_path',
+          ])
+          .where('cars.car_id = :id ', { id })
+          .getOne();
 
-      car.brand.brand_logo = Helpers.getStaticFilePublicPath(
-        car.brand.brand_logo,
-      );
-      car.images = car.images.map(item =>
-        Helpers.getStaticFilePublicPath(item.image_path),
-      );
-      car.policies =
-        car.policies.length > 0 ? car.policies[0].policies_text : null;
+        if (!car) throw new NotFoundException('Car not found.');
 
-      return car;
+        car.brand.brand_logo = Helpers.getStaticFilePublicPath(
+          car.brand.brand_logo,
+        );
+        car.images = car.images.map(item =>
+          Helpers.getStaticFilePublicPath(item.image_path),
+        );
+        car.policies =
+          car.policies.length > 0 ? car.policies[0].policies_text : null;
+
+        await this.redisService.zadd('cars', car.car_id, JSON.stringify(car));
+        return car;
+      }
     } catch (error) {
       if (error instanceof NotFoundException)
         throw new NotFoundException(error.message);
@@ -223,6 +235,7 @@ export class CarsService {
           Math.floor(updateCarDto.rental_price * 100) / 100;
 
       await this.carRepository.update({ car_id: id }, updateCarDto);
+      await this.redisService.zRemoveElementByScore('cars', id)
       return updateCarDto;
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
@@ -301,6 +314,7 @@ export class CarsService {
       });
       car.is_available = false;
       await this.carRepository.save(car);
+      await this.redisService.zRemoveElementByScore('cars', carId)
     } catch (error) {
       if (error instanceof EntityNotFoundError)
         throw new NotFoundException('Car Not Found.');
