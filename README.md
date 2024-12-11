@@ -54,6 +54,7 @@ Rentify is a backend API for a car rental system built with NestJS and PostgreSQ
 * NestJS
 * TypeScript
 * PostgreSQL
+* Redis
 * TypeORM
 * JWT (JSON Web Tokens)
 * bcryptjs
@@ -73,6 +74,7 @@ To get a local copy up and running follow these simple steps.
 * NodeJS
 * npm
 * PostgreSQL
+* Redis
 * Docker (optional)
 
 ### Installation
